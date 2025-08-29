@@ -16,10 +16,6 @@ function App() {
       </div>
       <h1>Vite - React / Bootcamp</h1>
       <Card nombre="pepe" edad={12} >Mi tarjeta</Card>
-      <Card nombre="Eugenia" edad={36}>Mi otra tarjeta</Card>
-      <Card nombre="Alejandra" edad={34}>
-        <h3>Mi tercera tarjeta</h3>
-      </Card>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>

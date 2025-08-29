@@ -7,8 +7,12 @@ type Props = {
 }
 
 function Card(props: Props) {
+    
+    const { a, b } = { a: 10, b: 20 }
+    console.log(a, b)
 
     const [count, setCount] = useState(0)
+    
     const [contador, setContador] = useState(0)
     const presentador = "Eugenia";
     const mensajeGenerico = <h3>Mensaje de saludo inicial</h3>;
