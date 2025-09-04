@@ -1,11 +1,11 @@
-function retornaLista() {
-    const listaNumeros = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    return listaNumeros;
-}
+//function retornaLista() {
+//    const listaNumeros = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+//    return listaNumeros;
+//}
 
 function Destructuracion() {
 
-    const [a, b, ...resto] = retornaLista();
+//    const [a, b, ...resto] = retornaLista();
 
 
     let persona = {
