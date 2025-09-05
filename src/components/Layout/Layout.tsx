@@ -7,7 +7,7 @@ import { Main } from "./Main";
 type MainProps = {
     children: ReactNode;
 }
-function Layout({ children }: MainProps) {
+function Layout(props: MainProps) {
 
     return (
         <>
