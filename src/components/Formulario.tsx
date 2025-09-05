@@ -1,5 +1,6 @@
 import type React from "react";
 import { useState } from "react";
+import { regCorreo, regNombre, regTelefono } from "../validaciones/expresiones";
 
 function Formulario() {
 
@@ -7,20 +8,14 @@ function Formulario() {
         {
             nombre: "",
             mail: "",
-            mensaje: ""
+            mensaje: "",
+            telefono: "" // 569-12345678
         }
     );
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log("enviado datos de formulario", formulario);
-        let errorFormulario = false;
 
-        if (!formulario.nombre) {
-            errorFormulario = true;
-        }
-        if (formulario.nombre.length < 3) {
-            errorFormulario = true;
-        }
+        let errorFormulario = false;
 
         // ^ : inicio de cadena
         // $ : termino de cadena
@@ -29,15 +24,23 @@ function Formulario() {
         // {3,8} : repeticiones, minimo y maximo
         // \d : digito
         // \s : espacio
-        const regNombre = /^[a-zA-Z\s]{3,16}$/;
-        const miMensaje = "Ana Maria";
 
-        if (regNombre.test(miMensaje)) {
-            console.log("La expresion cumple")
-        } else {
-            console.error("La expresion no cumple")
+
+
+        if (!regNombre.test(formulario.nombre)) {
+            errorFormulario = true;
+            console.log("error en nombre")
         }
 
+        if (!regCorreo.test(formulario.mail)) {
+            errorFormulario = true;
+            console.log("error en mail")
+        }
+
+        if (!regTelefono.test(formulario.telefono)) {
+            errorFormulario = true;
+            console.log("error en telefono")
+        }
 
         if (errorFormulario) {
             console.error("error en formulario")
@@ -45,6 +48,7 @@ function Formulario() {
             console.log("formulario enviado")
         }
     }
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormulario({ ...formulario, [name]: value });
@@ -78,6 +82,10 @@ function Formulario() {
                 <div>
                     <label htmlFor="mensaje">Mensaje</label>
                     <input type="text" name="mensaje" id="mensaje" value={formulario.mensaje} onChange={handleChange} />
+                </div>
+                <div>
+                    <label htmlFor="telefono">Telefono</label>
+                    <input type="text" name="telefono" id="telefono" value={formulario.telefono} onChange={handleChange} />
                 </div>
                 <div>
                     <button type="submit">Enviar</button>
