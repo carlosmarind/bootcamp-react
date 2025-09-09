@@ -27,7 +27,7 @@ function Layout(props: MainProps) {
                     minHeight: '100vh'
                 }}>
                     <Header></Header>
-                    <Main>{children}</Main>
+                    <Main>{props.children}</Main>
                     <Footer></Footer>
                 </div>
             </div>
