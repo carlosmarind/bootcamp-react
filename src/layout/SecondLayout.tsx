@@ -1,15 +1,7 @@
-import type { ReactNode } from "react"
-
-import { Footer } from '../components/common/Footer'
-import { Header } from "../components/common/Header";
 import { Main } from "../components/common/Main";
 import { Outlet } from "react-router";
 
-type MainProps = {
-    children?: ReactNode;
-}
-function SecondLayout(props: MainProps) {
-
+function SecondLayout() {
     return (
         <>
 
