@@ -6,7 +6,7 @@ function retornaLista() {
 function Destructuracion() {
 
     const [a, b, ...resto] = retornaLista();
-
+    console.log(a, b, resto)
 
     let persona = {
         nombre: "Adriana",
@@ -38,7 +38,7 @@ function Destructuracion() {
 
 
     const nuevoAtributo = "vacunado";
-    let persona4 = { ...persona, altura: 1.5, [nuevoAtributo]: true }
+    const persona4 = { ...persona, altura: 1.5, [nuevoAtributo]: true }
 
     return (
         <div>

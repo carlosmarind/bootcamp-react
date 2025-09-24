@@ -1,6 +1,6 @@
 import type React from "react";
 import { useState } from "react";
-import { regCorreo, regNombre, regTelefono } from "../validaciones/expresiones";
+import { regCorreo, regNombre, regTelefono } from "../../utils/validaciones/expresiones"
 
 function Formulario() {
 

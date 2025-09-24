@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Link } from "react-router";
 
 type MainProps = {
     children: ReactNode;
@@ -15,8 +16,17 @@ function Main({ children }: MainProps) {
                     alignItems: 'center',
                     justifyContent: 'center',
                 }}>
-                    <h2 style={{ color: 'white', fontSize: '1.5em', fontWeight: 'normal', margin: 0 }}>sidebar</h2>
-                    
+                    <ul>
+                        <li>
+                            <Link to="/">new home</Link>
+                        </li>
+                        <li>
+                            <Link to="/products">new products</Link>
+                        </li>
+                        <li>
+                            <Link to="/login">new login</Link>
+                        </li>
+                    </ul>
                 </aside>
                 <main style={{
                     backgroundColor: '#ff7f50',

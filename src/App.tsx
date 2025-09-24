@@ -1,16 +1,14 @@
-import { Card } from './components/card/Card'
-import { Formulario } from './components/Formulario'
-import { Layout } from './components/Layout/Layout'
+import { MainLayout } from './layout/MainLayout'
+import { Home } from './pages/Home'
 function App() {
 
-  const contenido = <Formulario></Formulario>
-  const contenido2 = <Card edad={31} nombre="Josefina">Saludos</Card>
+  const contenido = <Home></Home>
 
   return (
     <>
-      <Layout>
+      <MainLayout>
         {contenido}
-      </Layout>
+      </MainLayout>
     </>
   )
 }

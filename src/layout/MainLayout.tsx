@@ -1,13 +1,14 @@
 import type { ReactNode } from "react"
 
-import { Footer } from './Footer'
-import { Header } from "./Header";
-import { Main } from "./Main";
+import { Footer } from '../components/common/Footer'
+import { Header } from "../components/common/Header";
+import { Main } from "../components/common/Main";
+import { Outlet } from "react-router";
 
 type MainProps = {
-    children: ReactNode;
+    children?: ReactNode;
 }
-function Layout(props: MainProps) {
+function MainLayout(props: MainProps) {
 
     return (
         <>
@@ -27,13 +28,14 @@ function Layout(props: MainProps) {
                     minHeight: '100vh'
                 }}>
                     <Header></Header>
-                    <Main>{props.children}</Main>
+                    <Main>
+                        <Outlet />
+                    </Main>
                     <Footer></Footer>
                 </div>
             </div>
-
         </>
     )
 }
 
-export { Layout }
+export { MainLayout }
