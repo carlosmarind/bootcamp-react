@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { NavLink } from "react-router";
 import './Main.css'
 
@@ -12,6 +12,7 @@ type NavLinkType = {
 
 function Main({ children }: MainProps) {
 
+    const [cantidadProductos, setCantidadProductos] = useState(10);
     //className={cantidadProductos > 10 ? "superior" : "inferior"}
 
     function validarActivo({ isActive }: NavLinkType): string {
