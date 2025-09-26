@@ -1,10 +1,40 @@
-import type { ReactNode } from "react";
-import { Link } from "react-router";
+import { type ReactNode } from "react";
+import { NavLink } from "react-router";
+import './Main.css'
 
 type MainProps = {
     children: ReactNode;
 }
+
+type NavLinkType = {
+    isActive: boolean
+}
+
 function Main({ children }: MainProps) {
+
+    //className={cantidadProductos > 10 ? "superior" : "inferior"}
+
+    function validarActivo({ isActive }: NavLinkType): string {
+        console.log(isActive);
+        return isActive ? "activo" : "inactivo";
+    }
+
+    // f(x) = y
+    // calcular(x) = y
+    // calcular(parametro1,parametro2,parametroN....) = y
+    // calcular(parametro1,parametro2,parametroN....):number = resultado 
+    // (x) = y
+    // nombreFuncion(parametrosEntrada...) = SalidaORetorno["opcional"]
+
+    //let valorRetorno = (input) => { return "uno" }
+    //let valorRetorno = input => "uno"
+    //let valorRetorno = function (input) { return "uno" }
+
+    // miVariable = calcular(parametro1,parametro2,parametroN....) 
+    // miVariable = void
+
+
+
     return (
         <>
             <div style={{ display: 'flex', minHeight: '500px' }}>
@@ -18,14 +48,40 @@ function Main({ children }: MainProps) {
                 }}>
                     <ul>
                         <li>
-                            <Link to="/">new home</Link>
+
+                            <NavLink
+                                className={validarActivo}
+                                style={({ isActive }) =>
+                                ({
+                                    fontSize: isActive ? "24px" : "16px",
+                                    fontWeight: isActive ? "bold" : "normal",
+                                    color: isActive ? "red" : "black"
+                                })
+                                }
+                                to="/">new home
+                            </NavLink>
                         </li>
                         <li>
-                            <Link to="/products">new products</Link>
+                            <NavLink
+                                className={validarActivo}
+                                to="/products">
+                                {
+                                    ({ isActive }) => {
+                                        if (isActive) {
+                                            return `➡️Products ${cantidadProductos}`
+                                        } else {
+                                            return "new products"
+                                        }
+                                    }
+                                }
+                            </NavLink>
                         </li>
                         <li>
-                            <Link to="/login">new login</Link>
+                            <NavLink
+                                className={validarActivo}
+                                to="/login">new login</NavLink>
                         </li>
+
                     </ul>
                 </aside>
                 <main style={{
@@ -39,7 +95,7 @@ function Main({ children }: MainProps) {
 
                     {children}
                 </main>
-            </div>
+            </div >
         </>
     )
 }
