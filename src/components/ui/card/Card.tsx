@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 
-type Props = {
+type CardProps = {
     nombre: string,
     edad: number,
     children?: React.ReactNode
 }
 
-function Card(props: Props) {
-    
+function Card(props: CardProps) {
+
     const { a, b } = { a: 10, b: 20 }
     console.log(a, b)
 
     const [count, setCount] = useState(0)
-    
+
     const [contador, setContador] = useState(0)
     const presentador = "Eugenia";
     const mensajeGenerico = <h3>Mensaje de saludo inicial</h3>;

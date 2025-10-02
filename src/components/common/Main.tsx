@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import {  type ReactNode } from "react";
 import { NavLink } from "react-router";
 import './Main.css'
 
@@ -12,7 +12,7 @@ type NavLinkType = {
 
 function Main({ children }: MainProps) {
 
-    const [cantidadProductos, setCantidadProductos] = useState(10);
+    const cantidadProductos = 10;
     //className={cantidadProductos > 10 ? "superior" : "inferior"}
 
     function validarActivo({ isActive }: NavLinkType): string {
@@ -33,9 +33,6 @@ function Main({ children }: MainProps) {
 
     // miVariable = calcular(parametro1,parametro2,parametroN....) 
     // miVariable = void
-
-
-
     return (
         <>
             <div style={{ display: 'flex', minHeight: '500px' }}>

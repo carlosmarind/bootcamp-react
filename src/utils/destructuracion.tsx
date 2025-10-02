@@ -3,7 +3,7 @@ function retornaLista() {
     return listaNumeros;
 }
 
-function Destructuracion() {
+function destructuracion() {
 
     const [a, b, ...resto] = retornaLista();
     console.log(a, b, resto)
@@ -52,4 +52,4 @@ function Destructuracion() {
     )
 }
 
-export { Destructuracion }
+export { destructuracion }

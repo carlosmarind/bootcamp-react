@@ -1,4 +1,4 @@
-import { type Product } from "../types/product";
+import { type Product } from "../types/Product";
 import productos from "../data/productos.json"
 import { useEffect, useState } from "react";
 
