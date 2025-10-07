@@ -8,20 +8,24 @@ import { Home } from './pages/Home.tsx'
 import { SecondLayout } from './layout/SecondLayout.tsx'
 import { ProductDetail } from './pages/ProductDetail.tsx'
 import './main.css'
+import { Provider } from 'react-redux'
+import { store } from './redux/store.ts'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route index element={<Home />}></Route>
-          <Route path="products" element={<Products />}></Route>
-          <Route path="products/:productId" element={<ProductDetail />}></Route>
-        </Route>
-        <Route element={<SecondLayout />}>
-          <Route path="login" element={<Login />}></Route>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route index element={<Home />}></Route>
+            <Route path="products" element={<Products />}></Route>
+            <Route path="products/:productId" element={<ProductDetail />}></Route>
+          </Route>
+          <Route element={<SecondLayout />}>
+            <Route path="login" element={<Login />}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   </StrictMode>,
 )

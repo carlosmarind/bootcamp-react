@@ -1,6 +1,7 @@
 import { type Product } from "../types/Product";
 import productos from "../data/productos.json"
 import { useEffect, useState } from "react";
+import { Contador } from "../components/ui/Contador";
 
 function Home() {
 
@@ -62,6 +63,9 @@ function Home() {
                 }
             </ul>
             <button onClick={handleClick}> + aumentar contador</button>
+            <div>
+                <Contador></Contador>
+            </div>
         </>
     )
 }

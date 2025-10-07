@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 function Header() {
+
+    const globalCounter = useSelector((state) => state.counter)
 
     const [isLogged, setIsLogged] = useState(false);
 
@@ -56,7 +59,9 @@ function Header() {
                     fontWeight: 'bold'
                 }}>
                     Cambiar estado
+                    <span>{globalCounter}</span>
                 </button>
+
             </header>
         </>
     )
