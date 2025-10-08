@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import type { RootType } from "../../redux/store";
 
 function Header() {
 
-    const globalCounter = useSelector((state) => state.counter)
+    const globalCounter = useSelector((state: RootType) => state.counter)
 
     const [isLogged, setIsLogged] = useState(false);
-
     const navigate = useNavigate();
 
     const handleLoginClick = () => {
