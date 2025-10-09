@@ -8,6 +8,9 @@ const counterSlice = createSlice({
     // funciones de actualizacion del estado, pueden ser todas las que queramos
     // y se pueden llamar como queramos.
     reducers: {
+        reset: (state) => {
+            return state = 0;
+        },
         increment: (state) => {
             return state = state + 1
         },
@@ -20,5 +23,5 @@ const counterSlice = createSlice({
     }
 })
 
-export const { increment, decrement, updateByNumber} = counterSlice.actions;
+export const { increment, decrement, updateByNumber, reset } = counterSlice.actions;
 export default counterSlice.reducer;

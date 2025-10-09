@@ -5,7 +5,7 @@ import type { RootType } from "../../redux/store";
 
 function Contador() {
 
-    const globalCounter = useSelector((state: RootType) => { return state.counter })
+    const globalCounter = useSelector((state:RootType) => { return state.counter })
 
     const dispatch = useDispatch();
 
@@ -38,7 +38,7 @@ function Contador() {
                 <h2>Mi contador global es : {globalCounter}</h2>
                 <button onClick={handleUpGlobal}>incrementar +</button>
                 <button onClick={handleDownGlobal}>decrementar -</button>
-                <button onClick={handleUpdateByNumber}>actualizar a 20</button>
+                <button onClick={handleUpdateByNumber}>actualizar a contador</button>
             </div>
         </div>
 

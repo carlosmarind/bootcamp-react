@@ -24,13 +24,24 @@ export const productSlice = createSlice({
             })
             state.total = newTotal;
         },
-        removeProduct: () => {
+        removeProduct: (state, action: PayloadAction<number>) => {
+
+            const newProductList = state.productList.filter((product) => {
+                return product.id !== action.payload
+            })
+
+            let newTotal = 0;
+            newProductList.forEach(producto => {
+                newTotal = newTotal + producto.valor;
+            })
+
+            state.total = newTotal;
+            state.productList = newProductList;
 
         },
         emptyProducts: (state) => {
             return state = initialState;
         }
-
     }
 
 })

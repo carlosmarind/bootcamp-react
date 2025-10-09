@@ -15,10 +15,6 @@ function destructuracion() {
         nacionalidad: "chilena"
     }
 
-    const { nombre, apellido } = persona;
-    const { edad } = persona;
-    const { nacionalidad } = persona;
-
     const persona2 = {
         nombre: "Alejandra",
         apellido: "Diaz",
@@ -28,10 +24,15 @@ function destructuracion() {
     }
 
     persona = persona2;
+    
     const persona3 = { ...persona2 }
     persona2.edad = 50;
     persona3.edad = 60
 
+
+    const { nombre, apellido } = persona;
+    const { edad } = persona;
+    const { nacionalidad } = persona;
     const llave = "apellido";
 
     persona[llave] = "Camila";
