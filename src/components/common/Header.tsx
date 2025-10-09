@@ -5,7 +5,7 @@ import type { RootType } from "../../redux/store";
 
 function Header() {
 
-    const globalCounter = useSelector((state: RootType) => state.counter)
+    const listaCarrito = useSelector((state: RootType) => state.products)
 
     const [isLogged, setIsLogged] = useState(false);
     const navigate = useNavigate();
@@ -59,7 +59,7 @@ function Header() {
                     fontWeight: 'bold'
                 }}>
                     Cambiar estado
-                    <span>{globalCounter}</span>
+                    <span> T: {listaCarrito.total}, C:{listaCarrito.productList.length}</span>
                 </button>
 
             </header>
