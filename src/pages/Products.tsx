@@ -1,14 +1,27 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import jsonProductos from "../data/productos.json"
 import type { Product } from "../types/Product"
 import type { RootType } from "../redux/store";
-
+import { addProduct, emptyProducts, removeProduct } from '../redux/productSlice'
 
 function Products() {
 
     const listaProductos: Product[] = jsonProductos as Product[];
 
     const listaCarrito = useSelector((state: RootType) => state.products);
+    const dispatch = useDispatch();
+
+    function handleAddProduct(producto: Product) {
+        dispatch(addProduct(producto));
+        return
+    }
+    function handleEmptyProducts() {
+        dispatch(emptyProducts())
+    }
+
+    function handleRemoveProduct(id: number) {
+        dispatch(removeProduct(id));
+    }
     return (
         <>
             <div>
@@ -33,7 +46,7 @@ function Products() {
                                     <td>{producto.valor}</td>
                                     <td>{producto.stock}</td>
                                     <td>
-                                        <button>Agregar</button>
+                                        <button onClick={() => handleAddProduct(producto)}>Agregar</button>
                                     </td>
                                 </tr>
                             )
@@ -51,6 +64,7 @@ function Products() {
                             <th>nombre</th>
                             <th>valor</th>
                             <th>stock</th>
+                            <th>cantidad</th>
                             <th>controles</th>
                         </tr>
                     </thead>
@@ -62,8 +76,9 @@ function Products() {
                                     <td>{producto.nombre}</td>
                                     <td>{producto.valor}</td>
                                     <td>{producto.stock}</td>
+                                    <td>{producto.cantidad}</td>
                                     <td>
-                                        <button>quitar</button>
+                                        <button onClick={() => handleRemoveProduct(producto.id)}>quitar</button>
                                     </td>
                                 </tr>
                             )
@@ -77,7 +92,7 @@ function Products() {
                         </tr>
                         <tr>
                             <td>
-                                <button>Limpiar carrito</button>
+                                <button onClick={handleEmptyProducts}>Limpiar carrito</button>
                             </td>
                         </tr>
                     </tfoot>
