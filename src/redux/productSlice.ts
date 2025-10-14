@@ -47,8 +47,15 @@ export const productSlice = createSlice({
 
             const newProductList = state.productList.filter((product) => {
 
-                return product.id !== action.payload
-            })
+                if (product.id !== action.payload) {
+                    return true;
+                }
+                if (product.cantidad <= 1) {
+                    return false;
+                }
+                product.cantidad--;
+                return true;
+            });
 
             let newTotal = 0;
             newProductList.forEach(producto => {
@@ -63,7 +70,6 @@ export const productSlice = createSlice({
             return state = initialState;
         }
     }
-
 })
 
 export const { addProduct, removeProduct, emptyProducts } = productSlice.actions;
