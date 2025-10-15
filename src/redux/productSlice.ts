@@ -8,11 +8,34 @@ type CartProduct = Product & {
 type productSliceType = {
     productList: CartProduct[],
     total: number
+    createAt: number
 }
 
-const initialState: productSliceType = {
+const defaultInitialState: productSliceType = {
     productList: [],
-    total: 0
+    total: 0,
+    // new Date()  <- objeto fecha de javascript
+    // new Date().getTime() <- getTime devuelve los milisegundos transcurridos desde el 1 de enero de 1970 a la fecha actual
+    // si se divide por 1000 ( /1000 ), se tienen los segundos.
+    createAt: new Date().getTime()
+}
+
+const initialState = () => {
+    const fechaActual = new Date().getTime();
+    // cuantos segundos hay en un dia
+    const duracionCarrito = 60 * 60 * 24 // <- segundos * minutos * horas del dia.
+
+    const estadoCarrito = localStorage.getItem("carrito");
+
+    const carritoRespaldado = JSON.parse(estadoCarrito) as productSliceType;
+
+    const segundosTranscurridosCarrito = (fechaActual - carritoRespaldado.createAt) / 1000;
+
+    if (segundosTranscurridosCarrito > duracionCarrito) {
+        return defaultInitialState;
+    }
+
+    return carritoRespaldado;
 }
 
 export const productSlice = createSlice({
@@ -41,6 +64,7 @@ export const productSlice = createSlice({
                 newTotal = newTotal + (producto.valor * producto.cantidad);
             })
             state.total = newTotal;
+            state.createAt = new Date().getTime();
         },
 
         removeProduct: (state, action: PayloadAction<number>) => {
@@ -64,10 +88,11 @@ export const productSlice = createSlice({
 
             state.total = newTotal;
             state.productList = newProductList;
+            state.createAt = new Date().getTime();
 
         },
         emptyProducts: (state) => {
-            return state = initialState;
+            return state = defaultInitialState;
         }
     }
 })
