@@ -27,15 +27,14 @@ const initialState = () => {
 
     const estadoCarrito = localStorage.getItem("carrito");
 
-    const carritoRespaldado = JSON.parse(estadoCarrito) as productSliceType;
-
-    const segundosTranscurridosCarrito = (fechaActual - carritoRespaldado.createAt) / 1000;
-
-    if (segundosTranscurridosCarrito > duracionCarrito) {
-        return defaultInitialState;
+    if (estadoCarrito) {
+        const carritoRespaldado = JSON.parse(estadoCarrito) as productSliceType;
+        const segundosTranscurridosCarrito = (fechaActual - carritoRespaldado.createAt) / 1000;
+        if (segundosTranscurridosCarrito < duracionCarrito) {
+            return carritoRespaldado;
+        }
     }
-
-    return carritoRespaldado;
+    return defaultInitialState;
 }
 
 export const productSlice = createSlice({

@@ -38,8 +38,5 @@ const store = configureStore({
     middleware: (defaultMiddleware) => defaultMiddleware().concat(modStoreMiddleware)
 })
 
-
-
-
 export type RootType = ReturnType<typeof store.getState>
 export { store }

@@ -3,10 +3,22 @@ import jsonProductos from "../data/productos.json"
 import type { Product } from "../types/Product"
 import type { RootType } from "../redux/store";
 import { addProduct, emptyProducts, removeProduct } from '../redux/productSlice'
+import { useEffect } from "react";
 
 function Products() {
 
     const listaProductos: Product[] = jsonProductos as Product[];
+
+    useEffect(() => {
+
+        fetch("http://localhost:3000/productos")
+            .then(
+
+                function (response) {
+                    console.log(response);
+                }
+            )
+    }, []);
 
     const listaCarrito = useSelector((state: RootType) => state.products);
     const dispatch = useDispatch();
@@ -22,6 +34,7 @@ function Products() {
     function handleRemoveProduct(id: number) {
         dispatch(removeProduct(id));
     }
+
     return (
         <>
             <div>
