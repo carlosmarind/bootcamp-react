@@ -1,23 +1,41 @@
 import { useDispatch, useSelector } from "react-redux";
-import jsonProductos from "../data/productos.json"
+//import jsonProductos from "../data/productos.json"
 import type { Product } from "../types/Product"
 import type { RootType } from "../redux/store";
 import { addProduct, emptyProducts, removeProduct } from '../redux/productSlice'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function Products() {
 
-    const listaProductos: Product[] = jsonProductos as Product[];
+    //const listaProductos: Product[] = jsonProductos as Product[];
+    const [listaProductos, setListaProductos] = useState<Product[]>([])
 
     useEffect(() => {
+        console.log("iniciando la consulta http")
+        const fetchResponse = fetch("http://localhost:3000/productos");
+        fetchResponse.then(
+            (response) => {
+                console.log("recibi la respuesta")
+                console.log(response);
+                console.log("el codigo de respuesta", response.status);
+                if (response.ok) {
+                    console.log("el servicio respondio bien");
 
-        fetch("http://localhost:3000/productos")
-            .then(
+                    response.headers.forEach((valor, nombre) => {
+                        console.log(`cabecera ${nombre} con valor ${valor}`)
+                    })
 
-                function (response) {
-                    console.log(response);
+                    const textoRespose = response.text();
+                    textoRespose.then((texto) => {
+                        console.log(texto);
+                        const jsonRespuesta = JSON.parse(texto) as Product[];
+                        console.log("mi objeto json es: ", jsonRespuesta);
+                        setListaProductos(jsonRespuesta);
+                    })
                 }
-            )
+            }
+        )
+        console.log("ya termine la consulta http")
     }, []);
 
     const listaCarrito = useSelector((state: RootType) => state.products);
@@ -51,19 +69,20 @@ function Products() {
                         </tr>
                     </thead>
                     <tbody>
-                        {listaProductos.map((producto) => {
-                            return (
-                                <tr key={producto.id}>
-                                    <td>{producto.id}</td>
-                                    <td>{producto.nombre}</td>
-                                    <td>{producto.valor}</td>
-                                    <td>{producto.stock}</td>
-                                    <td>
-                                        <button onClick={() => handleAddProduct(producto)}>Agregar</button>
-                                    </td>
-                                </tr>
-                            )
-                        })}
+                        {listaProductos.length > 0 &&
+                            listaProductos.map((producto) => {
+                                return (
+                                    <tr key={producto.id}>
+                                        <td>{producto.id}</td>
+                                        <td>{producto.nombre}</td>
+                                        <td>{producto.valor}</td>
+                                        <td>{producto.stock}</td>
+                                        <td>
+                                            <button onClick={() => handleAddProduct(producto)}>Agregar</button>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                     </tbody>
                     <tfoot></tfoot>
                 </table>
