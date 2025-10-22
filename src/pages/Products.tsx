@@ -8,38 +8,45 @@ import { useEffect, useState } from "react";
 function Products() {
 
     //const listaProductos: Product[] = jsonProductos as Product[];
+    const listaCarrito = useSelector((state: RootType) => state.products);
     const [listaProductos, setListaProductos] = useState<Product[]>([])
+    const dispatch = useDispatch();
+
+    //useEffect(() => {
+    //    fetch("http://localhost:3000/productos").then(
+    //        (response) => {
+    //            if (!response.ok) {
+    //                return Promise.reject("El servicio no respondio ok");
+    //            }
+    //            //return response.text();
+    //            return response.json() as Promise<Product[]>;
+    //        }
+    //    ).then((json) => {
+    //        setListaProductos(json);
+    //    }).catch((error) => {
+    //        console.log("el servicio dio error, y el error fue", error)
+    //        setListaProductos([]);
+    //    }).finally(() => {
+    //        console.log("ya termine la consulta http")
+    //    })
+    //}, []);
 
     useEffect(() => {
-        console.log("iniciando la consulta http")
-        const fetchResponse = fetch("http://localhost:3000/productos");
-        fetchResponse.then(
-            (response) => {
-                console.log("recibi la respuesta")
-                console.log(response);
-                console.log("el codigo de respuesta", response.status);
-                if (response.ok) {
-                    console.log("el servicio respondio bien");
 
-                    response.headers.forEach((valor, nombre) => {
-                        console.log(`cabecera ${nombre} con valor ${valor}`)
-                    })
-
-                    const textoRespose = response.text();
-                    textoRespose.then((texto) => {
-                        console.log(texto);
-                        const jsonRespuesta = JSON.parse(texto) as Product[];
-                        console.log("mi objeto json es: ", jsonRespuesta);
-                        setListaProductos(jsonRespuesta);
-                    })
-                }
+        const callJsonServer = async () => {
+            try {
+                //voy a intentar ejecutar este codigo
+                const response = await fetch("http://localhost:3000/productos");
+                if (!response.ok) { return Promise.reject("El servicio no responde") }
+                const jsonResponse = await response.json() as Product[];
+                setListaProductos(jsonResponse)
+            } catch (error) {
+                //logica que se ejecuta si en el intento hay un error
+                console.log(error);
             }
-        )
-        console.log("ya termine la consulta http")
+        }
+        callJsonServer();
     }, []);
-
-    const listaCarrito = useSelector((state: RootType) => state.products);
-    const dispatch = useDispatch();
 
     function handleAddProduct(producto: Product) {
         dispatch(addProduct(producto));
