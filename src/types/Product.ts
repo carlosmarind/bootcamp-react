@@ -1,6 +1,6 @@
 type Product = {
-    id: number;
-    uuid: string;
+    id?: number;
+    uuid?: string;
     nombre: string;
     valor: number;
     stock?: number;

@@ -1,0 +1,7 @@
+.formProduct>label {
+    display: flex;
+    justify-content: space-between;
+    width: 350px;
+    margin-bottom: 8px;
+
+}
