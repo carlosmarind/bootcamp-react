@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 //import jsonProductos from "../data/productos.json"
 import type { Product } from "../types/Product"
 import type { RootType } from "../redux/store";
-import { addProduct, emptyProducts, productSlice, removeProduct } from '../redux/productSlice'
+import { addProduct, emptyProducts, removeProduct } from '../redux/productSlice'
 import React, { useEffect, useState } from "react";
 import style from './Products.module.css'
 function Products() {
@@ -59,8 +59,8 @@ function Products() {
     function handleEmptyProducts() {
         dispatch(emptyProducts())
     }
-    function handleRemoveProduct(id: number) {
-        dispatch(removeProduct(id));
+    function handleRemoveProduct(id: number | undefined) {
+        if (id) { dispatch(removeProduct(id)) }
     }
 
     function handleSubmit(e: React.FormEvent) {

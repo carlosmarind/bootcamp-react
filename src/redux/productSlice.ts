@@ -91,7 +91,8 @@ export const productSlice = createSlice({
 
         },
         emptyProducts: (state) => {
-            return state = defaultInitialState;
+            state = defaultInitialState;
+            return state;
         }
     }
 })

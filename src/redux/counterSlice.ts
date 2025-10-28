@@ -9,7 +9,8 @@ const counterSlice = createSlice({
     // y se pueden llamar como queramos.
     reducers: {
         reset: (state) => {
-            return state = 0;
+            state = 0
+            return state;
         },
         increment: (state) => {
             return state = state + 1
@@ -18,7 +19,8 @@ const counterSlice = createSlice({
             return state = state - 1
         },
         updateByNumber: (state, action: PayloadAction<number>) => {
-            return state = action.payload;
+            state = action.payload;
+            return state;
         }
     }
 })
