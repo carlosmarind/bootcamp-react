@@ -2,9 +2,10 @@ FROM node:22
 
 WORKDIR /usr/app
 
-COPY ./ /usr/app
+COPY ./ ./
 
 RUN npm install
 
-CMD ["npm", "run", "dev" ,"--","--host"]
+EXPOSE 5173
 
+CMD ["npm", "run", "dev" ,"--","--host"]
