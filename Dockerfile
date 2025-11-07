@@ -1,8 +1,8 @@
-FROM node:22
+FROM node:22 AS build
 
 WORKDIR /usr/app
 
-COPY ./ ./
+COPY . .
 
 RUN npm install
 
@@ -10,6 +10,8 @@ RUN npm run lint
 
 RUN npm run build
 
-EXPOSE 5173
+FROM nginx:stable-alpine AS publish
 
-CMD ["npm", "run", "dev" ,"--","--host"]
+WORKDIR /usr/share/nginx/html
+
+COPY --from=build /usr/app/dist .
