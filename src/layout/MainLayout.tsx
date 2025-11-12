@@ -5,6 +5,8 @@ import { Outlet } from "react-router";
 
 function MainLayout() {
 
+    // console.log("mi password es: ", import.meta.env.VITE_URL_BACKEND)
+
     return (
         <>
 
