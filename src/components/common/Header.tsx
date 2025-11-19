@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import type { RootType } from "../../redux/store";
-
+import style from './Header.module.css'
 function Header() {
 
     const listaCarrito = useSelector((state: RootType) => state.products)
@@ -59,7 +59,7 @@ function Header() {
                     fontWeight: 'bold'
                 }}>
                     Cambiar estado
-                    <span> T: {listaCarrito.total}, C:{listaCarrito.productList.length}</span>
+                    <span className={style.formProduct}> T: {listaCarrito.total}, C:{listaCarrito.productList.length}</span>
                 </button>
 
             </header>
