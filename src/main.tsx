@@ -12,6 +12,7 @@ import { store } from './redux/store.ts'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BootstrapDemo } from './pages/BootstrapDemo.tsx'
 import { BootstrapLayout } from './layout/BootstrapLayout.tsx'
+import { ProtectedComponent } from './components/common/ProtectedComponent.tsx'
 
 
 
@@ -23,7 +24,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route element={<BootstrapLayout />}>
             <Route index element={<Home />}></Route>
-            <Route path="products" element={<Products />}></Route>
+            <Route path="products" element={<ProtectedComponent element={<Products />} allowedRoles={["user", "admin"]} />}></Route>
             <Route path="products/:productId" element={<ProductDetail />}></Route>
             <Route path="bootstrap" element={<BootstrapDemo />}></Route>
           </Route>

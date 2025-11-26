@@ -1,14 +1,19 @@
 import React, { useState } from "react"
+import type { MetaDataAuth } from "../types/MetaDataAuth";
+import { useNavigate } from "react-router";
 
 function Login() {
 
     const [form, setForm] = useState({ user: '', password: '' });
+    const [loginFailure, setLoginFailure] = useState(false)
+    const navigate = useNavigate()
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setForm({
             ...form,
             [event.target.name]: event.target.value
         })
+        setLoginFailure(false)
     }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,6 +29,25 @@ function Login() {
                 "username": form.user
                 "password": form.password
             }*/
+        }).then((response) => {
+
+            if (!response.ok) {
+                setLoginFailure(true)
+                return
+            }
+
+            return response.json();
+        }).then((json) => {
+
+            if (!json || !json.metadata || !json.metadata.isAuthenticated) {
+                setLoginFailure(true)
+                return
+            }
+
+            const metadataUsuario: MetaDataAuth = json.metadata
+
+            localStorage.setItem("auth", JSON.stringify(metadataUsuario))
+            navigate("/products")
         })
     }
 
@@ -38,6 +62,7 @@ function Login() {
                     Contraseña:
                     <input name="password" type="password" value={form.password} onChange={handleChange} />
                 </label>
+                {loginFailure && <p>Error en la contraseña</p>}
                 <button type="submit">Enviar</button>
             </form>
         </div>
