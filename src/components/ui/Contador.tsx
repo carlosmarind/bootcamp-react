@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { increment, decrement, updateByNumber } from "../../redux/counterSlice";
-import type { RootType } from "../../redux/store";
+import { increment, decrement, updateByNumber } from "../../redux/slices/counterSlice";
+import type { RootState } from "../../redux/rootReducer";
+import type { AppDispatch } from "../../redux/store";
 
 function Contador() {
 
-    const globalCounter = useSelector((state:RootType) => { return state.counter })
+    const globalCounter = useSelector((state: RootState) => { return state.counter })
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const [count, setCount] = useState(0);
     function handleUp() {

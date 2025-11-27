@@ -1,16 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 //import jsonProductos from "../data/productos.json"
 import type { Product } from "../types/Product"
-import type { RootType } from "../redux/store";
-import { addProduct, emptyProducts, removeProduct } from '../redux/productSlice'
+import { addProduct, emptyProducts, removeProduct } from '../redux/slices/productSlice'
 import React, { useEffect, useState } from "react";
 import style from './Products.module.css'
+import type { RootState } from "../redux/rootReducer";
+import type { AppDispatch } from "../redux/store";
 function Products() {
 
     //const listaProductos: Product[] = jsonProductos as Product[];
-    const listaCarrito = useSelector((state: RootType) => state.products);
+    const listaCarrito = useSelector((state: RootState) => state.products);
     const [listaProductos, setListaProductos] = useState<Product[]>([])
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [product, setProduct] = useState<Product>({ nombre: "", valor: 0, stock: 0 });
     const [refresh, setRefresh] = useState(0);
 

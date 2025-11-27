@@ -3,12 +3,3 @@
 *::after {
   box-sizing: border-box;
 }
-
-.row {
-  border: 1px solid black;
-}
-
-[class^="col"] {
-  border: 1px solid black;
-  padding: 10px;
-}

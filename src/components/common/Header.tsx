@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import type { RootType } from "../../redux/store";
 import style from './Header.module.css'
+import type { RootState } from "../../redux/rootReducer";
 function Header() {
 
-    const listaCarrito = useSelector((state: RootType) => state.products)
+    const listaCarrito = useSelector((state: RootState) => state.products)
 
     const [isLogged, setIsLogged] = useState(false);
     const navigate = useNavigate();

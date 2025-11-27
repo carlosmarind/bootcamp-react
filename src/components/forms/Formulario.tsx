@@ -1,6 +1,6 @@
 import type React from "react";
 import { useState } from "react";
-import { regCorreo, regNombre, regTelefono } from "../../utils/validaciones/expresiones"
+import { isEmail, isFullName, isChilePhoneWithDash } from "../../utils/validaciones/expresiones"
 
 function Formulario() {
 
@@ -27,17 +27,17 @@ function Formulario() {
 
 
 
-        if (!regNombre.test(formulario.nombre)) {
+        if (!isFullName(formulario.nombre)) {
             errorFormulario = true;
             console.log("error en nombre")
         }
 
-        if (!regCorreo.test(formulario.mail)) {
+        if (!isEmail(formulario.mail)) {
             errorFormulario = true;
             console.log("error en mail")
         }
 
-        if (!regTelefono.test(formulario.telefono)) {
+        if (!isChilePhoneWithDash(formulario.telefono)) {
             errorFormulario = true;
             console.log("error en telefono")
         }
