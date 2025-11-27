@@ -8,7 +8,10 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "json-server": "json-server -p 3001 data/db.json "
+    "json-server": "json-server -p 3001 data/db.json ",
+    "dbuild": "docker build -t bootcamp-react .",
+    "predpublish": "docker tag bootcamp-react carlosmarind/bootcamp-react",
+    "dublish": "docker push carlosmarind/bootcamp-react"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.0",

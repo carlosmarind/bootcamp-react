@@ -1,16 +1,16 @@
-FROM node:22 AS build
+FROM node:24-alpine AS build
 
 WORKDIR /usr/app
 
 COPY . .
 
-RUN npm install
+RUN npm ci
 
 RUN npm run lint
 
 RUN npm run build
 
-FROM nginx:stable-alpine AS publish
+FROM nginx:mainline-alpine-slim AS publish
 
 WORKDIR /usr/share/nginx/html
 
