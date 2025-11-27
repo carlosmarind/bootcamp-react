@@ -1,0 +1,40 @@
+{
+    "productos": [
+        {
+            "id": 1,
+            "uuid": "255ff257-a6dc-47c8-9799-790d5f632cee",
+            "nombre": "Mantas",
+            "valor": 5000,
+            "stock": 2,
+            "sku": "dsdfSDas12esddas",
+            "fechaCreacion": "2025-09-30T19:35:00.000Z"
+        },
+        {
+            "id": 2,
+            "uuid": "a8e7332b-a201-4e1e-a67e-3c036698dca0",
+            "nombre": "Camisas",
+            "valor": 15000
+        },
+        {
+            "id": 3,
+            "uuid": "29532041-a807-408e-82f3-ba1162d20ae1",
+            "nombre": "Short",
+            "valor": 25000
+        },
+        {
+            "id": 4,
+            "uuid": "c09bcf6d-da2a-4f97-8a10-77e18eaf0bcf",
+            "nombre": "Pareo",
+            "valor": 35000
+        }
+    ],
+    "usuarios": [
+        {
+            "id": 1,
+            "nombre": "Josefa",
+            "apellido": "Perez",
+            "edad": 31,
+            "activo": "true"
+        }
+    ]
+}
