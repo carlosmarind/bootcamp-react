@@ -1,6 +1,6 @@
 import type React from "react";
 import { useState } from "react";
-import { isEmail, isFullName, isChilePhoneWithDash } from "../../utils/validaciones/expresiones"
+import { isEmail, isFullName, isChilePhoneWithDash } from "../../utils/expresiones"
 
 function Formulario() {
 
