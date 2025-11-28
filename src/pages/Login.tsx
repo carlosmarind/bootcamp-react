@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 
 
 function Login() {
-
+    const LOGIN_TYPE = 'JWT'
     const [form, setForm] = useState({ user: '', password: '' });
     const [loginFailure, setLoginFailure] = useState(false)
     const navigate = useNavigate()
@@ -20,8 +20,11 @@ function Login() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        jwtLogin()
+        if (LOGIN_TYPE === "JWT") {
+            jwtLogin()
+        } else {
+            basicLogin();
+        }
     }
 
     const basicLogin = () => {
@@ -31,17 +34,12 @@ function Login() {
             headers: {
                 "Content-Type": 'application/json'
             }
-            /*{
-                "username": form.user
-                "password": form.password
-            }*/
         }).then((response) => {
 
             if (!response.ok) {
                 setLoginFailure(true)
                 return
             }
-
             return response.json();
         }).then((json) => {
 
