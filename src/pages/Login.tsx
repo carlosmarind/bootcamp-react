@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import type { MetaDataAuth } from "../types/MetaDataAuth";
 import { useNavigate } from "react-router";
+import { jwtDecode } from "jwt-decode";
+
 
 function Login() {
 
@@ -19,6 +21,10 @@ function Login() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        jwtLogin()
+    }
+
+    const basicLogin = () => {
         fetch("http://localhost:3001/login", {
             method: "POST",
             body: JSON.stringify({ username: form.user, password: form.password }),
@@ -47,6 +53,39 @@ function Login() {
             const metadataUsuario: MetaDataAuth = json.metadata
 
             localStorage.setItem("auth", JSON.stringify(metadataUsuario))
+            navigate("/products")
+        })
+    }
+
+    const jwtLogin = () => {
+
+        fetch("http://localhost:3001/auth/login", {
+            method: "POST",
+            body: JSON.stringify({ username: form.user, password: form.password }),
+            headers: {
+                "Content-Type": 'application/json'
+            }
+            /*{
+                "username": form.user
+                "password": form.password
+            }*/
+        }).then((response) => {
+
+            if (!response.ok) {
+                setLoginFailure(true)
+                return
+            }
+
+            return response.json();
+        }).then((json) => {
+            if (!json?.token) {
+                setLoginFailure(true)
+                return
+            }
+
+            const payload = jwtDecode(json.token);
+
+            localStorage.setItem("token", JSON.stringify(payload))
             navigate("/products")
         })
     }
