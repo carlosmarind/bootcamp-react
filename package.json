@@ -12,7 +12,7 @@
     "dbuild": "docker build -t bootcamp-react .",
     "predpublish": "docker tag bootcamp-react carlosmarind/bootcamp-react",
     "dublish": "docker push carlosmarind/bootcamp-react",
-    "dpublish-all":"docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/carlosmarind/bootcamp-react:latest --push ."
+    "dpublish-all": "docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/carlosmarind/bootcamp-react:latest --push ."
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.0",

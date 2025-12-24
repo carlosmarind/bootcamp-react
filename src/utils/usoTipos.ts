@@ -3,6 +3,9 @@
 // Ejemplos didácticos de tipos en TypeScript
 // ------------------------------------------
 
+// Utilidad como funcion para marcar valores como "usados" y evitar errores del compilador o linter por no usarlos.
+const consume = (..._args: unknown[]): void => { /* noop: solo para ejemplos */ };
+
 // 1. Unión de tipos (Type Union)
 // Permite que una variable o propiedad acepte varios tipos posibles.
 // Ejemplo: puede ser string o number.
@@ -12,6 +15,7 @@ type Id = string | number;
 let userId: Id = 123;      // válido
 userId = "abc-123";        // también válido
 // userId = true;          // Error: boolean no es parte de Id
+consume(userId);
 
 // 2. Intersección de tipos (Type Intersection)
 // Combina varios tipos en uno solo que tiene todas las propiedades de ambos.
@@ -20,6 +24,7 @@ type Age = { age: number };
 type Person = Name & Age; // Debe tener name y age
 
 const persona: Person = { name: "Ana", age: 30 };
+consume(persona);
 
 // 3. Omit<T, K>
 // Crea un tipo a partir de otro, excluyendo una o más propiedades.
@@ -27,16 +32,19 @@ type User = { id: number; name: string; email: string; password: string };
 type PublicUser = Omit<User, "password">;
 // PublicUser tiene id, name, email pero NO password
 const usuarioPublico: PublicUser = { id: 1, name: "Carlos", email: "c@x.com" };
+consume(usuarioPublico);
 
 // 4. Pick<T, K>
 // Crea un tipo seleccionando solo ciertas propiedades de otro tipo.
 type UserPreview = Pick<User, "id" | "name">;
 const vistaUsuario: UserPreview = { id: 2, name: "Luisa" };
+consume(vistaUsuario);
 
 // 5. Extender tipos (herencia de tipos)
 // Puedes crear un nuevo tipo basado en otro, agregando o cambiando propiedades.
 type Admin = User & { role: "admin" };
 const admin: Admin = { id: 99, name: "Root", email: "root@x.com", password: "1234", role: "admin" };
+consume(admin);
 
 // 6. Generics (Tipos Genéricos)
 // -----------------------------
@@ -48,6 +56,7 @@ const admin: Admin = { id: 99, name: "Root", email: "root@x.com", password: "123
 type Box<T> = { value: T };
 const boxString: Box<string> = { value: "hola" };
 const boxNumber: Box<number> = { value: 42 };
+consume(boxString, boxNumber);
 
 // 6.2 Función genérica básica
 // La función preserva el tipo de entrada y salida gracias al genérico T.
@@ -56,17 +65,20 @@ function identity<T>(x: T): T {
 }
 const sameText = identity<string>("texto");
 const sameNum = identity(123); // T se infiere como number
+consume(sameText, sameNum);
 
 // 6.3 Varios parámetros de tipo (T, U)
 // Combina dos tipos genéricos en una tupla (par ordenado).
 type Pair<T, U> = { first: T; second: U };
 const pair1: Pair<string, number> = { first: "id", second: 10 };
 const pair2: Pair<UserPreview, Roles> = { first: { id: 7, name: "Eva" }, second: "user" };
+consume(pair1, pair2);
 
 // 6.4 Genéricos con restricción (extends)
 // Limitamos T para que sea un objeto con una propiedad `id: number`.
 type WithId<T extends { id: number }> = T & { uuid: string };
 const withIdUser: WithId<User> = { id: 1, name: "C", email: "c@x.com", password: "x", uuid: "u-123" };
+consume(withIdUser);
 
 // 7. Añadir atributos a un tipo existente (por composición)
 // Puedes usar intersección (&) o declarar un nuevo tipo que extienda otro.
@@ -80,15 +92,20 @@ const usuarioConFechas: UserWithTimestamps = {
   createdAt: new Date(),
   updatedAt: new Date()
 };
+consume(usuarioConFechas);
 
 // 8. Ejemplo de utilidad: Partial<T>
 // Hace que todas las propiedades de un tipo sean opcionales.
 type UserDraft = Partial<User>;
 const borrador: UserDraft = { name: "Solo nombre" }; // válido, solo name
+consume(borrador);
 
 // 9. Ejemplo de utilidad: Required<T>
 // Hace que todas las propiedades sean obligatorias.
 type UserRequired = Required<UserDraft>;
+// Creamos un valor de ejemplo para "usar" el tipo y evitar la advertencia
+const userRequiredEjemplo: UserRequired = { id: 0, name: "", email: "", password: "" };
+consume(userRequiredEjemplo);
 // const u: UserRequired = {} // Error: faltan todas las propiedades
 
 // 10. Ejemplo de utilidad: Record<K, T>
@@ -100,14 +117,19 @@ const permisos: RolePermissions = {
   user: ["read", "write"],
   guest: ["read"]
 };
+consume(permisos);
 
 // 11. Ejemplo de utilidad: Exclude<T, U>
 // Excluye de T los tipos que están en U.
 type Status = "active" | "inactive" | "banned";
 type VisibleStatus = Exclude<Status, "banned">; // "active" | "inactive"
+const visibleStatusEjemplo: VisibleStatus = "active";
+consume(visibleStatusEjemplo);
 
 // 12. Ejemplo de utilidad: Extract<T, U>
 // Extrae de T los tipos que también están en U.
 type AllowedStatus = Extract<Status, "active" | "pending">; // "active"
+const allowedStatusEjemplo: AllowedStatus = "active";
+consume(allowedStatusEjemplo);
 
 // Puedes probar estos ejemplos en un archivo .ts o en el playground de TypeScript.

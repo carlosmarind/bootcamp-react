@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect } from "react"
 import { Accordion, Col, Container, Row, Table } from "react-bootstrap";
 

@@ -1,11 +1,10 @@
-type Product = {
-    id?: number;
-    uuid?: string;
-    nombre: string;
-    valor: number;
-    stock?: number;
-    sku?: string;
-    fechaCreacion?: Date;
+export type Product = {
+    id?: number
+    nombre: string
+    descripcion: string
+    precio: number
+    stock: number
+    categoria: string
+    imagen?: string
+    rating?: number
 }
-
-export type { Product };

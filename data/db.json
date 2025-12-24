@@ -1,40 +1,246 @@
 {
-    "productos": [
+    "users": [
+        {
+            "nombre": "Alejandra",
+            "edad": "1356",
+            "email": "ale@a3sds.com",
+            "aceptaTerminos": true,
+            "pais": "cl",
+            "descripcion": "mensaje de descripcion1",
+            "password": "cGFzczE=",
+            "roles": [
+                "admin",
+                "user"
+            ],
+            "id": "0"
+        },
+        {
+            "id": "f747",
+            "nombre": "Pepe",
+            "edad": "2",
+            "email": "asdasd@asd.com",
+            "aceptaTerminos": true,
+            "pais": "cl",
+            "descripcion": "comentarios",
+            "password": "YWJjZA==",
+            "roles": [
+                "user"
+            ]
+        },
+        {
+            "id": "6b48",
+            "nombre": "Serafin",
+            "edad": "23",
+            "email": "asdasd@asd.com",
+            "aceptaTerminos": false,
+            "pais": "cl",
+            "descripcion": "sdfd",
+            "password": "cXdlcnR5",
+            "roles": [
+                "user"
+            ]
+        },
+        {
+            "id": "c042",
+            "nombre": "pruebas",
+            "edad": "123",
+            "email": "asda@asd.com",
+            "aceptaTerminos": true,
+            "pais": "cl",
+            "descripcion": "asad",
+            "password": "MTIzNDU2",
+            "roles": [
+                "admin",
+                "user"
+            ]
+        },
+        {
+            "id": "f0c6",
+            "nombre": "carlos",
+            "edad": "123",
+            "email": "asasd@eq.com",
+            "aceptaTerminos": true,
+            "pais": "cl",
+            "descripcion": "",
+            "password": "c2VjcmV0",
+            "roles": [
+                "user"
+            ]
+        },
+        {
+            "id": "5897",
+            "nombre": "carlos",
+            "edad": "123",
+            "email": "asasd@eq.com",
+            "aceptaTerminos": true,
+            "pais": "cl",
+            "descripcion": "",
+            "password": "bG9naW4x",
+            "roles": [
+                "user"
+            ]
+        },
+        {
+            "id": "30cc",
+            "nombre": "carlos",
+            "edad": "123",
+            "email": "asasd@eq.com",
+            "aceptaTerminos": true,
+            "pais": "cl",
+            "descripcion": "",
+            "password": "cGFzczE=",
+            "roles": [
+                "admin",
+                "user"
+            ]
+        },
+        {
+            "id": "9960",
+            "nombre": "carlos",
+            "edad": "123",
+            "email": "asasd@eq.com",
+            "aceptaTerminos": true,
+            "pais": "cl",
+            "descripcion": "",
+            "password": "YWJjZA==",
+            "roles": [
+                "user"
+            ]
+        },
+        {
+            "id": "6a39",
+            "nombre": "carlos",
+            "edad": "123",
+            "email": "asasd@eq.com",
+            "aceptaTerminos": true,
+            "pais": "cl",
+            "descripcion": "",
+            "password": "cXdlcnR5",
+            "roles": [
+                "user"
+            ]
+        },
+        {
+            "id": "cc66",
+            "nombre": "pruebas",
+            "edad": "12",
+            "email": "car@aslc.com",
+            "aceptaTerminos": true,
+            "pais": "cl",
+            "descripcion": "asdas",
+            "password": "MTIzNDU2",
+            "roles": [
+                "admin",
+                "user"
+            ]
+        },
+        {
+            "id": "53ca",
+            "nombre": "persona de pruebas",
+            "edad": "31",
+            "email": "carlosmarin@gmail.com",
+            "aceptaTerminos": true,
+            "pais": "cl",
+            "descripcion": "mi descripcion de pruebas",
+            "password": "c2VjcmV0",
+            "roles": [
+                "user"
+            ]
+        },
+        {
+            "id": "a425",
+            "nombre": "dasdasdas",
+            "edad": "12123",
+            "email": "123@gmail.com",
+            "aceptaTerminos": true,
+            "pais": "cl",
+            "descripcion": "dsfsdfsd",
+            "password": "bG9naW4x",
+            "roles": [
+                "user"
+            ]
+        }
+    ],
+    "products": [
         {
             "id": 1,
-            "uuid": "255ff257-a6dc-47c8-9799-790d5f632cee",
-            "nombre": "Mantas",
-            "valor": 5000,
-            "stock": 2,
-            "sku": "sasfsdfssdf",
-            "fechaCreacion": "2025-09-30T19:35:00.000Z"
+            "nombre": "Laptop Gaming ASUS ROG",
+            "precio": 1299.99,
+            "descripcion": "Laptop gaming de alta performance con procesador Intel Core i7, 16GB RAM, SSD 512GB y tarjeta gráfica NVIDIA RTX 4060. Pantalla 15.6 pulgadas 144Hz.",
+            "imagen": "https://placehold.co/600x400?text=Laptop+Gaming+ASUS+ROG",
+            "categoria": "Computadoras",
+            "stock": 5,
+            "rating": 4.8
         },
         {
             "id": 2,
-            "uuid": "a8e7332b-a201-4e1e-a67e-3c036698dca0",
-            "nombre": "Camisas",
-            "valor": 15000
+            "nombre": "Mouse Logitech MX Master 3",
+            "precio": 99.99,
+            "descripcion": "Mouse inalámbrico de precisión con rueda de desplazamiento rápido, 8 botones programables y conexión Bluetooth. Ideal para productividad.",
+            "imagen": "https://placehold.co/600x400?text=Mouse+Logitech+MX+Master+3",
+            "categoria": "Accesorios",
+            "stock": 25,
+            "rating": 4.7
         },
         {
             "id": 3,
-            "uuid": "29532041-a807-408e-82f3-ba1162d20ae1",
-            "nombre": "Short",
-            "valor": 25000
+            "nombre": "Teclado Mecánico RGB",
+            "precio": 149.99,
+            "descripcion": "Teclado mecánico con switches Cherry MX, iluminación RGB programable, cable USB desmontable. Diseño compacto de 75%.",
+            "imagen": "https://placehold.co/600x400?text=Teclado+Mecanico+RGB",
+            "categoria": "Accesorios",
+            "stock": 12,
+            "rating": 4.6
         },
         {
             "id": 4,
-            "uuid": "c09bcf6d-da2a-4f97-8a10-77e18eaf0bcf",
-            "nombre": "Pareo",
-            "valor": 35000
-        }
-    ],
-    "usuarios": [
+            "nombre": "Monitor Samsung 27\" 4K",
+            "precio": 599.99,
+            "descripcion": "Monitor UHD 4K de 27 pulgadas con panel IPS, HDR10, y velocidad de respuesta de 5ms. Perfecto para diseño y edición.",
+            "imagen": "https://placehold.co/600x400?text=Monitor+Samsung+27+4K",
+            "categoria": "Monitores",
+            "stock": 8,
+            "rating": 4.9
+        },
         {
-            "id": 1,
-            "nombre": "Josefa",
-            "apellido": "Perez",
-            "edad": 31,
-            "activo": "true"
+            "id": 5,
+            "nombre": "Auriculares Sony WH-1000XM5",
+            "precio": 349.99,
+            "descripcion": "Auriculares over-ear con cancelación de ruido activa, sonido de alta calidad y batería de 30 horas. Bluetooth 5.3.",
+            "imagen": "https://placehold.co/600x400?text=Auriculares+Sony+WH-1000XM5",
+            "categoria": "Audio",
+            "stock": 15,
+            "rating": 4.8
+        },
+        {
+            "id": 6,
+            "nombre": "Webcam Logitech 4K",
+            "precio": 79.99,
+            "descripcion": "Webcam ultra HD 4K con enfoque automático, micrófono estéreo integrado y campo de visión de 90°. Ideal para streaming.",
+            "imagen": "https://placehold.co/600x400?text=Webcam+Logitech+4K",
+            "categoria": "Accesorios",
+            "stock": 20,
+            "rating": 4.5
+        },
+        {
+            "id": 7,
+            "nombre": "SSD Samsung 970 EVO Plus",
+            "precio": 129.99,
+            "descripcion": "SSD NVMe de 1TB con velocidad de lectura de 4500 MB/s. Ideal para gaming y aplicaciones profesionales.",
+            "imagen": "https://placehold.co/600x400?text=SSD+Samsung+970+EVO+Plus",
+            "categoria": "Almacenamiento",
+            "stock": 30,
+            "rating": 4.7
+        },
+        {
+            "id": 8,
+            "nombre": "Fuente de Poder 650W",
+            "precio": 89.99,
+            "descripcion": "Fuente modular 650W 80+ Gold, con garantía de 10 años. Cables modulares para mejor organización.",
+            "imagen": "https://placehold.co/600x400?text=Fuente+de+Poder+650W",
+            "categoria": "Componentes",
+            "stock": 18,
+            "rating": 4.6
         }
     ]
 }

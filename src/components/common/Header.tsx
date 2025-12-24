@@ -25,45 +25,20 @@ function Header() {
     }
 
     return (
-        <>
-            <header style={{
-                backgroundColor: '#888',
-                color: 'white',
-                padding: '20px',
-                borderRadius: '10px 10px 0 0',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-            }}>
-                <h1 style={{ fontSize: '2em', fontWeight: 'normal', margin: 0 }} >Header {isLogged ? "logeado" : "no logeado"}</h1>
-                <button onClick={handleLoginClick} style={{
-                    backgroundColor: '#ffa500',
-                    color: 'white',
-                    padding: '15px 30px',
-                    border: 'none',
-                    borderRadius: '8px',
-                    fontSize: '1.2em',
-                    cursor: 'pointer',
-                    fontWeight: 'bold'
-                }}>
-                    Login
-                </button>
-                <button onClick={handleHacerLogin} style={{
-                    backgroundColor: '#ffa500',
-                    color: 'white',
-                    padding: '15px 30px',
-                    border: 'none',
-                    borderRadius: '8px',
-                    fontSize: '1.2em',
-                    cursor: 'pointer',
-                    fontWeight: 'bold'
-                }}>
-                    Cambiar estado
-                    <span className={style.formProduct}> T: {listaCarrito.total}, C:{listaCarrito.productList.length}</span>
-                </button>
-
-            </header>
-        </>
+        <header className={style.header}>
+            <div className={style.headerContent}>
+                <h1>Header {isLogged ? "logeado" : "no logeado"}</h1>
+                <div className={style.formProduct}>
+                    <button onClick={handleLoginClick}>
+                        Login
+                    </button>
+                    <button onClick={handleHacerLogin}>
+                        Cambiar estado
+                        <span> T: {listaCarrito.total}, C:{listaCarrito.productList.length}</span>
+                    </button>
+                </div>
+            </div>
+        </header>
     )
 }
 
