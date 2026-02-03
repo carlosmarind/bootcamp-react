@@ -107,7 +107,7 @@ export const productSlice = createSlice({
                 // Usar `push` también es válido dentro de los reducers RTK.
                 state.productList.push({ ...payload, cantidad: 1 } as CartProduct);
             }
-            state.total = state.productList.reduce((accumulator, p) => accumulator + p.valor * p.cantidad, 0);
+            state.total = state.productList.reduce((accumulator, p) => accumulator + p.precio * p.cantidad, 0);
             state.createAt = Date.now();
         },
 
@@ -131,7 +131,7 @@ export const productSlice = createSlice({
                 // en el nuevo estado devuelto por Immer tras el reducer.
                 state.productList.splice(posicion, 1);
             }
-            state.total = state.productList.reduce((accumulator, p) => accumulator + p.valor * p.cantidad, 0);
+            state.total = state.productList.reduce((accumulator, p) => accumulator + p.precio * p.cantidad, 0);
             state.createAt = Date.now();
         },
         // emptyProducts

@@ -13,7 +13,6 @@ import { Route, Routes } from "react-router";
 // - ProtectedComponent: envuelve componentes que requieren autenticación/autorización.
 // - Páginas (Home, Login, Products, etc.): componentes que se muestran en cada ruta.
 // - Layouts: componentes que envuelven grupos de rutas para compartir estructura (header, footer, etc.).
-import { ProtectedComponent } from "../components/common/ProtectedComponent";
 import { BootstrapDemo } from "../pages/BootstrapDemo";
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login/Login";
