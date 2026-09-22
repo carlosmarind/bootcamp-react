@@ -7,7 +7,7 @@ function TarjetaAlumnoConCurso({ nombre, curso = "React" }: TarjetaAlumnoConCurs
     return (
         <article className="card">
             <h3>{nombre}</h3>
-            <p>Estudiante de {curso}</p>
+            <p>Estudiante del {curso}</p>
         </article>
     )
 }
