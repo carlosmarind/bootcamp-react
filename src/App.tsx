@@ -34,7 +34,7 @@ export function App() {
         </aside>
         <main id="contenido" tabIndex={-1}><SesionComponentes /></main>
       </div>
-      <footer className="site-footer">Aula React · Capítulo 01 · Aprende construyendo</footer>
+      <footer className="site-footer">Bootcamp React · Capítulo 01</footer>
     </>
   )
 }

@@ -11,7 +11,7 @@ function SesionComponentes() {
                 <p className="eyebrow">Capítulo 01 · Fundamentos de React</p>
                 <h1>Una pieza.<br />Muchas posibilidades.</h1>
                 <p className="lead">Aprende cada concepto antes de usarlo en el siguiente paso. Lee la definición, predice el resultado y modifica el ejemplo.</p>
-                <div className="chapter-meta"><span>12 pasos</span><span>Sin hooks</span><span>React + TypeScript</span></div>
+                <div className="chapter-meta"><span>12 pasos</span><span>React + TypeScript</span></div>
             </header>
             <EjemploPrimerComponente />
             <EjemploExportacionesNombradas />
