@@ -3,6 +3,7 @@ import { EjemploExportacionesNombradas } from "./ejemplos/02-Exportaciones";
 import { EjemploReutilizacion } from "./ejemplos/03-Reutilizacion";
 import { EjemploProps } from "./ejemplos/04-ComponenteProps";
 import { EjemploDesestructuracion } from "./ejemplos/05-Desestructuracion";
+import { EjemploPropsOpcionales } from "./ejemplos/06-ValoresPredeterminados";
 
 function SesionComponentes() {
     return (
@@ -18,6 +19,7 @@ function SesionComponentes() {
             <EjemploReutilizacion />
             <EjemploProps />
             <EjemploDesestructuracion />
+            <EjemploPropsOpcionales />
         </>
     );
 }
