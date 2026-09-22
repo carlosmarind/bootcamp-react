@@ -5,7 +5,6 @@ import { EjemploProps } from "./ejemplos/04-ComponenteProps";
 import { EjemploDesestructuracion } from "./ejemplos/05-Desestructuracion";
 
 function SesionComponentes() {
-
     return (
         <>
             <header className="chapter-header" id="capitulo-01">
@@ -22,5 +21,4 @@ function SesionComponentes() {
         </>
     );
 }
-
 export { SesionComponentes }
