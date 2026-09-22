@@ -5,6 +5,7 @@ import { EjemploProps } from "./ejemplos/04-ComponenteProps";
 import { EjemploDesestructuracion } from "./ejemplos/05-Desestructuracion";
 import { EjemploPropsOpcionales } from "./ejemplos/06-ValoresPredeterminados";
 import { EjemploCondicionales } from "./ejemplos/07-Condicionales";
+import { EjemploEventos } from "./ejemplos/08-Eventos";
 
 function SesionComponentes() {
     return (
@@ -22,6 +23,7 @@ function SesionComponentes() {
             <EjemploDesestructuracion />
             <EjemploPropsOpcionales />
             <EjemploCondicionales />
+            <EjemploEventos />
         </>
     );
 }
