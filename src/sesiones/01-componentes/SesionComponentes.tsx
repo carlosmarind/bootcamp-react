@@ -8,6 +8,7 @@ import { EjemploCondicionales } from "./ejemplos/07-Condicionales";
 import { EjemploEventos } from "./ejemplos/08-Eventos";
 import { EjemploPropFuncion } from "./ejemplos/09-PropsComoFunciones";
 import { EjemploCallbackConArgumentos } from "./ejemplos/10-ArgumentosCallback";
+import { EjemploComponentesChildren } from "./ejemplos/11-Children";
 
 function SesionComponentes() {
     return (
@@ -28,6 +29,7 @@ function SesionComponentes() {
             <EjemploEventos />
             <EjemploPropFuncion />
             <EjemploCallbackConArgumentos />
+            <EjemploComponentesChildren />
         </>
     );
 }
