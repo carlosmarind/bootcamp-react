@@ -9,6 +9,8 @@ import { EjemploEventos } from "./ejemplos/08-Eventos";
 import { EjemploPropFuncion } from "./ejemplos/09-PropsComoFunciones";
 import { EjemploCallbackConArgumentos } from "./ejemplos/10-ArgumentosCallback";
 import { EjemploComponentesChildren } from "./ejemplos/11-Children";
+import { EjemploListaAlumnos } from "./ejemplos/12-Listas";
+import { Ejercicio } from "./ejercicio/Ejercicio";
 
 function SesionComponentes() {
     return (
@@ -30,6 +32,8 @@ function SesionComponentes() {
             <EjemploPropFuncion />
             <EjemploCallbackConArgumentos />
             <EjemploComponentesChildren />
+            <EjemploListaAlumnos />
+            <Ejercicio />
         </>
     );
 }
