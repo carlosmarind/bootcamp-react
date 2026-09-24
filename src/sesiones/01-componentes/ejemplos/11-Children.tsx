@@ -1,5 +1,4 @@
 import type { ReactNode } from "react"
-import { EjemploPrimerComponente } from "./01-Componente"
 
 type TarjetaContenidoProps = {
     titulo: string

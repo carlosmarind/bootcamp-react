@@ -135,10 +135,13 @@ main {
   display: block;
   padding: 0.8rem;
   border-radius: var(--radius);
-  background: var(--color-tint);
   font-size: 0.9rem;
   font-weight: 700;
   text-decoration: none;
+}
+
+.chapter-link[aria-current="page"] {
+  background: var(--color-tint);
 }
 
 .lesson-nav {
@@ -278,6 +281,8 @@ code {
 }
 
 .button {
+  display: inline-block;
+  text-decoration: none;
   font: inherit;
   font-size: 0.9rem;
   font-weight: 650;
