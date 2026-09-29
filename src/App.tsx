@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router'
 import { MainLayout } from './layout/MainLayout'
 import { SesionRouter } from './sesiones/02-react-router/SesionRouter'
-import { Cursos } from './sesiones/01-componentes/ejercicio/Cursos'
+import { Cursos } from './sesiones/01-componentes/ejercicio/Cursos.tsx'
 import { SesionComponentes } from './sesiones/01-componentes/SesionComponentes'
 import { PaginaNoEncontrada } from './sesiones/02-react-router/paginas/PaginaNoEncontrada'
 import { Inicio } from './sesiones/02-react-router/paginas/Inicio'
