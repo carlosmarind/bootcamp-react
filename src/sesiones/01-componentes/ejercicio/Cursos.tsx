@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { cursos, type Curso } from "./Cursos";
 
 function FichaCurso({ id, titulo, horario, sala = "Sala por confirmar", tieneCupos }: Curso) {
@@ -7,7 +8,13 @@ function FichaCurso({ id, titulo, horario, sala = "Sala por confirmar", tieneCup
             <p>Horario: {horario}</p>
             <p>{sala}</p>
             <p className={tieneCupos ? "badge" : "badge badge-muted"}>{tieneCupos ? "Hay Cupos" : "Completo"}</p>
-            <p><a href="/">Ver detalle de {titulo}</a></p>
+            <p>
+                <Link to={`/detalle/${id}`}>Ver detalle de {titulo}</Link>
+            </p>
+            <p>
+                <a href={`/detalle/${id}`}>Ver detalle de {titulo}</a>
+            </p>
+            {/* /detalle/:cursoId */}
 
         </article>
 

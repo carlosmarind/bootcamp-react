@@ -1,10 +1,31 @@
+import { useParams, useSearchParams } from "react-router";
 import { cursos } from "./Cursos"
 
 export function DetalleCurso() {
 
-    const curso = cursos[0];
+    const { cursoId } = useParams();
+    const [qParams] = useSearchParams();
 
-    const { titulo, horario, sala = "Sala por confirmar", tieneCupos } = curso;
+    const color = qParams.get("color");
+    const altura = qParams.get("altura");
+
+    const cursoEncontrado = cursos.find((curso) => {
+        if (curso.id === cursoId) {
+            return curso;
+        }
+    });
+
+    if (!cursoEncontrado) {
+        return (
+            <section>
+                <h1>Curso no encontrado</h1>
+                <p>No tenemos un curso con el identificador "{cursoId}"</p>
+                <a href="/cursos">Volver a los cursos</a>
+            </section>
+        )
+    }
+
+    const { titulo, horario, sala = "Sala por confirmar", tieneCupos } = cursoEncontrado;
 
     return (
         <>
@@ -16,6 +37,7 @@ export function DetalleCurso() {
             <section className="card">
                 <p>Horario: {horario}</p>
                 <p>Sala: {sala}</p>
+                <p>Altura: {altura}, color: {color}</p>
                 <p className={tieneCupos ? "badge" : "badge badge-muted"}>{tieneCupos ? "Hay Cupos" : "Completo"}</p>
             </section>
         </>

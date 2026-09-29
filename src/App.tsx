@@ -16,7 +16,7 @@ export function App() {
           <Route path="/componentes" element={<SesionComponentes />} />
           <Route path="/router" element={<SesionRouter />} />
           <Route path="/cursos" element={<Cursos />} />
-          <Route path="/detalle" element={<DetalleCurso />} />
+          <Route path="/detalle/:cursoId" element={<DetalleCurso />} />
           <Route path="*" element={<PaginaNoEncontrada />} />
         </Route>
       </Routes>
