@@ -19,6 +19,5 @@ export function DetalleCurso() {
                 <p className={tieneCupos ? "badge" : "badge badge-muted"}>{tieneCupos ? "Hay Cupos" : "Completo"}</p>
             </section>
         </>
-
     )
 }
