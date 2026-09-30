@@ -6,6 +6,7 @@ import { SesionComponentes } from './sesiones/01-componentes/SesionComponentes'
 import { PaginaNoEncontrada } from './sesiones/02-react-router/paginas/PaginaNoEncontrada'
 import { Inicio } from './sesiones/02-react-router/paginas/Inicio'
 import { DetalleCurso } from './sesiones/01-componentes/ejercicio/DetalleCurso'
+import { SesionEstadosForms } from './sesiones/03-estados-forms/SesionEstadosFroms.tsx'
 
 export function App() {
   return (
@@ -16,7 +17,8 @@ export function App() {
           <Route path="/componentes" element={<SesionComponentes />} />
           <Route path="/router" element={<SesionRouter />} />
           <Route path="/cursos" element={<Cursos />} />
-          <Route path="/detalle/:cursoId" element={<DetalleCurso />} />
+          <Route path="/estados-forms" element={<SesionEstadosForms />} />
+          <Route path="/cursos/:cursoId" element={<DetalleCurso />} />
           <Route path="*" element={<PaginaNoEncontrada />} />
         </Route>
       </Routes>

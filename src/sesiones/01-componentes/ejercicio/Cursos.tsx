@@ -9,10 +9,10 @@ function FichaCurso({ id, titulo, horario, sala = "Sala por confirmar", tieneCup
             <p>{sala}</p>
             <p className={tieneCupos ? "badge" : "badge badge-muted"}>{tieneCupos ? "Hay Cupos" : "Completo"}</p>
             <p>
-                <Link to={`/detalle/${id}`}>Ver detalle de {titulo}</Link>
+                <Link to={`/cursos/${id}`}>Ver detalle de {titulo} (Link)</Link>
             </p>
             <p>
-                <a href={`/detalle/${id}`}>Ver detalle de {titulo}</a>
+                <a href={`/cursos/${id}`}>Ver detalle de {titulo} (a)</a>
             </p>
             {/* /detalle/:cursoId */}
 

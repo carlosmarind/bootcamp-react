@@ -1,6 +1,8 @@
 import { EjemploURL } from "./ejemplos/01-URL";
 import { EjemploBrowserRouter } from "./ejemplos/02-BrowserRouter";
 import { EjemploRutas } from "./ejemplos/03-Rutas";
+import { EjemploNavegacion } from "./ejemplos/04-Navegacion";
+import { EjemploParametros } from "./ejemplos/05-Parametros";
 import { EjemploRutasNoEncontradas } from "./ejemplos/06-RutasNoEncontradas";
 import { EjemploLayout } from "./ejemplos/07-Layout";
 import { Ejercicio } from "./ejercicio/Ejercicio";
@@ -27,19 +29,14 @@ export function SesionRouter() {
                 </ol>
                 <a className="exercise-link" href="#router-reto">Ir al ejercicio ↗</a>
             </nav>
-
             <EjemploURL />
-
             <EjemploBrowserRouter />
-
             <EjemploRutas />
-
+            <EjemploNavegacion />
+            <EjemploParametros />
             <EjemploRutasNoEncontradas />
-
             <EjemploLayout />
-
             <Ejercicio />
-
         </>
     )
 }
