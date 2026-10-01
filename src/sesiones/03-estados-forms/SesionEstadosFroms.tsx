@@ -1,4 +1,5 @@
 import { EjemploContador } from "./ejemplos/01-Contador";
+import { EjemploDisponibilidad } from "./ejemplos/02-Disponibilidad";
 
 export function SesionEstadosForms() {
     return (
@@ -17,8 +18,9 @@ export function SesionEstadosForms() {
                     <li><a href="#formulario">Controlar un formulario pequeño</a></li>
                 </ol>
             </nav>
-
             <EjemploContador />
+            <EjemploDisponibilidad />
+
         </>
     )
 

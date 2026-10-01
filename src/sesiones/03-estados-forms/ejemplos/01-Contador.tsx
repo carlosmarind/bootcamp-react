@@ -6,7 +6,11 @@ export function EjemploContador() {
 
     function incrementar() {
         //podemos llamar a la funciona de actualizacion de estado pasandole un valor
-        setContador(contador + 1)
+        //la forma basica es setContador(contador + 1)
+        setContador((valorActual) => { return valorActual + 1 });
+        setContador(valorActual => valorActual + 1);
+        setContador(valorActual => valorActual + 1);
+        setContador(valorActual => valorActual + 1);
         // o con una funcion de callback de tipo (valorActual) => { return valorNuevo }
         // setContador((valorActual) => valorActual + 1)
     }
