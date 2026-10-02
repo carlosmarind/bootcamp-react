@@ -1,5 +1,6 @@
 import { EjemploContador } from "./ejemplos/01-Contador";
 import { EjemploDisponibilidad } from "./ejemplos/02-Disponibilidad";
+import { EjemploFormulario } from "./ejemplos/03-Formulario";
 
 export function SesionEstadosForms() {
     return (
@@ -20,6 +21,7 @@ export function SesionEstadosForms() {
             </nav>
             <EjemploContador />
             <EjemploDisponibilidad />
+            <EjemploFormulario />
 
         </>
     )
