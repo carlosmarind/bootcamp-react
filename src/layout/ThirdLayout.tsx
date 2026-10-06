@@ -1,4 +1,4 @@
-import { Cursos } from "../sesiones/01-componentes/ejercicio/Cursos";
+import { Cursos } from "../sesiones/01-componentes/ejercicio/Cursos.tsx";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
