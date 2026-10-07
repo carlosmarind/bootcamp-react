@@ -1,6 +1,8 @@
 import { EjemploContador } from "./ejemplos/01-Contador";
 import { EjemploDisponibilidad } from "./ejemplos/02-Disponibilidad";
 import { EjemploFormulario } from "./ejemplos/03-Formulario";
+import { Ejercicio } from "./ejercicio/Ejercicio";
+import { Resolucion } from "./ejercicio/Resolucion";
 
 export function SesionEstadosForms() {
     return (
@@ -22,7 +24,8 @@ export function SesionEstadosForms() {
             <EjemploContador />
             <EjemploDisponibilidad />
             <EjemploFormulario />
-
+            <Ejercicio />
+            <Resolucion />
         </>
     )
 

@@ -13,15 +13,17 @@ type Formulario = {
 
 export function EjemploFormulario() {
 
-    const [formulario, setFormulario] = useState<Formulario>({
+    let initValue = {
         nombre: "Jose",
         direccion: "",
         correo: "",
         curso: "",
-        jornada: "",
+        jornada: "Mañana",
         aceptaCondiciones: false,
         comentario: ""
-    })
+    }
+
+    const [formulario, setFormulario] = useState<Formulario>(initValue)
 
     //const [nombre, setNombre] = useState("")
     //const [direccion, setDireccion] = useState("")
@@ -31,7 +33,24 @@ export function EjemploFormulario() {
 
     function enviarFormulario() {
         console.log("nombre:", formulario)
-        //  y quizas luego enviarBackend({ nombre, direccion, correo })
+
+        // antes del backend, deberiamos validarla
+
+        let errorFormulario = false;
+
+        if (formulario.nombre && formulario.nombre.trim().length > 2 && formulario.nombre.trim().length < 64) {
+            errorFormulario = true;
+        }
+
+        if (formulario.direccion && formulario.direccion.trim().length > 2 && formulario.direccion.trim().length < 64) {
+            errorFormulario = true;
+        }
+
+        if (!errorFormulario) {
+            //  y quizas luego enviarBackend({ nombre, direccion, correo })
+        }
+
+
     }
 
     function cambioInput(evento: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
@@ -60,9 +79,16 @@ export function EjemploFormulario() {
         //    edad: 28
         //}
 
+        //console.log("name", evento.target.name)
+        //console.log("value", evento.target.value)
+        //console.log("value", evento.target.checked)
+        //
         setFormulario({
             ...formulario,
-            [evento.target.name]: evento.target.value,
+            [evento.target.name]: (evento.target instanceof HTMLInputElement && evento.target.type === "checkbox") ?
+                evento.target.checked
+                :
+                evento.target.value
         })
 
         //if (name === "nombre") {
@@ -98,7 +124,7 @@ export function EjemploFormulario() {
                 <p>Los campos de texto, select y textarea usan <code>value</code>. Un checkbox usa <code>checked</code>. Todos actualizan su estado con <code>onChange</code>.</p>
                 <pre><code>{"const [correo, setCorreo] = useState('')\nconst [aceptaCondiciones, setAceptaCondiciones] = useState(false)\n\n<input type=\"email\" value={correo} onChange={(evento) => setCorreo(evento.target.value)} />\n<input type=\"checkbox\" checked={aceptaCondiciones} onChange={(evento) => setAceptaCondiciones(evento.target.checked)} />"}</code></pre>
 
-                <form className="card" onSubmit={enviarFormulario}>
+                <form className="card">
                     <p>
                         <label>
                             Nombre<br />
@@ -129,9 +155,9 @@ export function EjemploFormulario() {
                     </p>
                     <fieldset>
                         <legend>Jornada</legend>
-                        <label><input type="radio" name="jornada" value="Tarde" checked={false} onChange={cambioInput} /> Tarde</label><br />
-                        <label><input type="radio" name="jornada" value="Ambas" checked={false} onChange={cambioInput} /> Ambas</label><br />
-                        <label><input type="radio" name="jornada" value="Mañana" checked={true} onChange={cambioInput} /> Mañana</label><br />
+                        <label><input type="radio" name="jornada" value="Tarde" checked={formulario.jornada === "Tarde"} onChange={cambioInput} /> Tarde</label><br />
+                        <label><input type="radio" name="jornada" value="Ambas" checked={formulario.jornada === "Ambas"} onChange={cambioInput} /> Ambas</label><br />
+                        <label><input type="radio" name="jornada" value="Mañana" checked={formulario.jornada === "Mañana"} onChange={cambioInput} /> Mañana</label><br />
                     </fieldset>
                     <p>
                         <label>
@@ -141,7 +167,7 @@ export function EjemploFormulario() {
                     </p>
                     <p>
                         <label>
-                            <input name="condiciones" type="checkbox" /> Acepto las condiciones
+                            <input name="condiciones" type="checkbox" onChange={cambioInput} /> Acepto las condiciones
                         </label>
                     </p>
                     <button className="button" type="button" onClick={enviarFormulario}>Inscribirme</button>
