@@ -1,5 +1,5 @@
-import type React from "react";
-import { useState } from "react";
+import { useState } from "react"
+import { z } from "zod"
 
 type Formulario = {
     nombre: string
@@ -10,10 +10,30 @@ type Formulario = {
     condiciones: boolean
     comentario: string
 }
+let listaCursos = ['React', 'JavaScript'];
 
-export function EjemploFormulario() {
+const esquemaFormulario = z.object({
+    nombre: z.string().trim()
+        .min(1, { error: 'Ingresa tu nombre' })
+        .max(64, { error: 'El nombre no puede tener mas de 64 caracteres' }),
+    direccion: z.string().trim()
+        .min(1, { error: 'Ingresa tu direccion' })
+        .max(128, { error: 'La direccion no puede tener mas de 128 caracteres' }),
+    correo: z.email({ error: 'El correo es invalido' }),
+    curso: z.enum(listaCursos, { error: 'Selecciona un curso' }),
+    jornada: z.enum(['Mañana', 'Tarde', 'Ambas'], { error: 'Selecciona una jornada' }),
+    comentario: z.string().trim()
+        .max(200, { error: 'El comentario puede tener hasta 200 caracteres' }),
+    condiciones: z.literal(true, { error: 'Debes aceptar las condiciones' }),
+})
 
-    let initValue = {
+type ResultadoValidacionType = ReturnType<typeof esquemaFormulario.safeParse>
+
+export function EjemploValidacionZod() {
+
+    const [resultadoValidacion, setResultadoValidacion] = useState<ResultadoValidacionType | null>(null);
+
+    const [formulario, setFormulario] = useState<Formulario>({
         nombre: "Jose",
         direccion: "",
         correo: "",
@@ -21,66 +41,33 @@ export function EjemploFormulario() {
         jornada: "Mañana",
         condiciones: false,
         comentario: ""
-    }
+    })
 
-    const [formulario, setFormulario] = useState<Formulario>(initValue)
-
-    //const [nombre, setNombre] = useState("")
-    //const [direccion, setDireccion] = useState("")
-    //const [correo, setCorreo] = useState("")
-    //const [curso, setCurso] = useState("")
-
+    const errores = resultadoValidacion && !resultadoValidacion.success ? z.flattenError(resultadoValidacion.error).fieldErrors : {}
 
     function enviarFormulario() {
-        console.log("nombre:", formulario)
 
-        // antes del backend, deberiamos validarla
+        console.log("el formulario es:", formulario)
+        //aqui deberia existir una validacion
+        const validacion = esquemaFormulario.safeParse(formulario)
 
-        let errorFormulario = false;
+        setResultadoValidacion(validacion);
 
-        if (formulario.nombre && formulario.nombre.trim().length > 2 && formulario.nombre.trim().length < 64) {
-            errorFormulario = true;
+        //aqui enviamos el formulario a algun lugar
+
+        console.log("validacion", validacion)
+
+        if (!validacion.success) {
+            alert('formulario invalido')
+            return;
         }
 
-        if (formulario.direccion && formulario.direccion.trim().length > 2 && formulario.direccion.trim().length < 64) {
-            errorFormulario = true;
-        }
-
-        if (!errorFormulario) {
-            //  y quizas luego enviarBackend({ nombre, direccion, correo })
-        }
+        const datosValidados = validacion.data;
+        console.log('Los datos validados estan listos para ser enviados', datosValidados);
+        // enviarBackend(datosValidados)
     }
 
     function cambioInput(evento: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
-
-        //console.log("cambio el :", evento.target.name)
-        //console.log("y el valor es:", evento.target.value)
-        //if (evento.target.name === "nombre") {
-        //    setNombre(evento.target.value)
-        //} else if (evento.target.name === "direccion") {
-        //    setDireccion(evento.target.value)
-        //} else if (evento.target.name === "correo") {
-        //    setCorreo(evento.target.value)
-        //} else if (evento.target.name === "curso") {
-        //    setCurso(evento.target.value)
-        //}
-
-        //const nombre = "Pepe"
-        //
-        //let persona = {
-        //    nombre: "alicia",
-        //    edad: 26
-        //}
-        //
-        //persona = {
-        //    nombre,
-        //    edad: 28
-        //}
-
-        //console.log("name", evento.target.name)
-        //console.log("value", evento.target.value)
-        //console.log("value", evento.target.checked)
-        //
         setFormulario({
             ...formulario,
             [evento.target.name]: (evento.target instanceof HTMLInputElement && evento.target.type === "checkbox") ?
@@ -88,36 +75,13 @@ export function EjemploFormulario() {
                 :
                 evento.target.value
         })
-
-        //if (name === "nombre") {
-        //    setFormulario({
-        //        nombre: value,
-        //        direccion: formulario.direccion,
-        //        correo: formulario.correo,
-        //        curso: formulario.curso,
-        //        jornada: formulario.jornada,
-        //        aceptaCondiciones: formulario.aceptaCondiciones,
-        //        comentario: formulario.comentario
-        //    });
-        //} else if (name === "direccion") {
-        //    setFormulario({
-        //        nombre: formulario.nombre,
-        //        direccion: value,
-        //        correo: formulario.correo,
-        //        curso: formulario.curso,
-        //        jornada: formulario.jornada,
-        //        aceptaCondiciones: formulario.aceptaCondiciones,
-        //        comentario: formulario.comentario
-        //    });
-        //}
     }
-
     return (
         <>
             <section className="lesson" id="formulario">
                 <header className="lesson-heading">
-                    <span className="lesson-number">03</span>
-                    <h2 id="formulario-title">Controlar un formulario pequeño</h2>
+                    <span className="lesson-number">04</span>
+                    <h2 id="formulario-title">Validacion de formulario con Zod</h2>
                 </header>
                 <p>Los campos de texto, select y textarea usan <code>value</code>. Un checkbox usa <code>checked</code>. Todos actualizan su estado con <code>onChange</code>.</p>
                 <pre><code>{"const [correo, setCorreo] = useState('')\nconst [aceptaCondiciones, setAceptaCondiciones] = useState(false)\n\n<input type=\"email\" value={correo} onChange={(evento) => setCorreo(evento.target.value)} />\n<input type=\"checkbox\" checked={aceptaCondiciones} onChange={(evento) => setAceptaCondiciones(evento.target.checked)} />"}</code></pre>
@@ -128,28 +92,31 @@ export function EjemploFormulario() {
                             Nombre<br />
                             <input required name="nombre" value={formulario.nombre} onChange={cambioInput} />
                         </label>
+                        {errores.nombre?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
                     </p>
                     <p>
                         <label>
                             Dirección<br />
                             <input required name="direccion" value={formulario.direccion} onChange={cambioInput} />
                         </label>
+                        {errores.direccion?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
                     </p>
                     <p>
                         <label>
                             Correo<br />
                             <input type="email" name="correo" onChange={cambioInput} />
                         </label>
+                        {errores.correo?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
                     </p>
                     <p>
                         <label>
                             Curso<br />
                             <select name="curso" value={formulario.curso} onChange={cambioInput} >
                                 <option value="">Seleccione...</option>
-                                <option value="React">React</option>
-                                <option value="JavaScript">JavaScript</option>
+                                {listaCursos.map((curso) => <option key={curso} value={curso}>{curso}</option>)}
                             </select>
                         </label>
+                        {errores.curso?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
                     </p>
                     <fieldset>
                         <legend>Jornada</legend>
@@ -157,16 +124,19 @@ export function EjemploFormulario() {
                         <label><input type="radio" name="jornada" value="Ambas" checked={formulario.jornada === "Ambas"} onChange={cambioInput} /> Ambas</label><br />
                         <label><input type="radio" name="jornada" value="Mañana" checked={formulario.jornada === "Mañana"} onChange={cambioInput} /> Mañana</label><br />
                     </fieldset>
+                    {errores.jornada?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
                     <p>
                         <label>
                             Comentario opcional<br />
                             <textarea rows={3} name="comentario" onChange={cambioInput} />
                         </label>
+                        {errores.comentario?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
                     </p>
                     <p>
                         <label>
                             <input name="condiciones" type="checkbox" onChange={cambioInput} /> Acepto las condiciones
                         </label>
+                        {errores.condiciones?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
                     </p>
                     <button className="button" type="button" onClick={enviarFormulario}>Inscribirme</button>
                 </form>
