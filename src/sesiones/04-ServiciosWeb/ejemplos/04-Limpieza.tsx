@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 function Temporizador() {
 
     const [segundos, setSegundos] = useState(0);
+
     useEffect(() => {
         const intervalo = setInterval(() => {
             setSegundos((valorActual) => valorActual + 1)
