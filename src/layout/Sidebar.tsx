@@ -24,6 +24,8 @@ export function Sidebar() {
                     className="chapter-link" to="/router">02 · React Router</NavLink>
                 <NavLink className="chapter-link" to="/estados-forms">03 - Estados y formularios</NavLink>
 
+                <NavLink className="chapter-link" to="/servicios-web">04 - useEffect y Fetch (Servicios Web)</NavLink>
+
                 {/* Sin end, Cursos también queda activo al visitar /cursos/react. */}
                 <NavLink className="chapter-link" to="/cursos">Cursos</NavLink>
             </nav>
