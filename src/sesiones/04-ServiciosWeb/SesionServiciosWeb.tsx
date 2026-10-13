@@ -2,6 +2,7 @@ import { SinDependencias } from "./ejemplos/01-SinDependencias";
 import { DependenciasVacias } from "./ejemplos/02-DependenciasVacias";
 import { EjemploDependencias } from "./ejemplos/03-Dependencias";
 import { EjemploLimpieza } from "./ejemplos/04-Limpieza";
+import { EjemploPromesaBasica } from "./ejemplos/05-PromesaBasica";
 
 export function SesionServiciosWeb() {
     return (
@@ -30,6 +31,7 @@ export function SesionServiciosWeb() {
             <DependenciasVacias />
             <EjemploDependencias />
             <EjemploLimpieza />
+            <EjemploPromesaBasica />
         </>
     )
 }

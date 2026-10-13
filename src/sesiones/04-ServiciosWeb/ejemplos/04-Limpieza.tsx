@@ -5,10 +5,29 @@ function Temporizador() {
     const [segundos, setSegundos] = useState(0);
 
     useEffect(() => {
+        //logica de montaje del componente
         const intervalo = setInterval(() => {
-            setSegundos((valorActual) => valorActual + 1)
-            console.log(segundos);
+            setSegundos((valorActual) => {
+                return valorActual + 1
+            })
+            console.log("ejecutando intervalo...")
         }, 1000)
+
+        // logica de desmontaje del componente
+        return () => {
+            console.log("desmontando el componente...")
+            clearInterval(intervalo)
+        }
+    }, [])
+
+
+    useEffect(() => {
+        //logica de montaje del componente
+        console.log("Montando mi componente Temporizador")
+        // logica de desmontaje del componente
+        return () => {
+            console.log("Desmontando mi componente Temporizador")
+        }
     }, [])
 
     return <p>Segundos transcurridos: {segundos}</p>
