@@ -8,10 +8,14 @@ function PreferenciaCurso({ curso }: PreferenciaCursoProps) {
 
     const [nivel, setNivel] = useState("Inicial")
 
+    // un useEffect con un segundo parametro en el arreglo ( useEffect( ()=>{}, [curso] ) ), significa que lo que esta en la funcion del
+    // primer parametro se ejecutara solo cuando 'curso' sea modificado.
     useEffect(() => {
         localStorage.setItem('curso-seleccionado', curso)
     }, [curso])
 
+    // un useEffect con un segundo parametro en el arreglo ( useEffect( ()=>{}, [nivel] ) ), significa que lo que esta en la funcion del
+    // primer parametro se ejecutara solo cuando 'nivel' sea modificado.
     useEffect(() => {
         localStorage.setItem('nivel-seleccionado', nivel)
     }, [nivel])
@@ -58,7 +62,6 @@ export function EjemploDependencias() {
                         </select>
                     </label>
                 </p>
-
                 <PreferenciaCurso curso={curso} />
             </article>
 

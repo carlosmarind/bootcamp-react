@@ -7,7 +7,7 @@ function Temporizador() {
     useEffect(() => {
         const intervalo = setInterval(() => {
             setSegundos((valorActual) => valorActual + 1)
-            console.log("segundos", segundos)
+            console.log(segundos);
         }, 1000)
     }, [])
 
