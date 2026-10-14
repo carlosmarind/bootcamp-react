@@ -13,8 +13,6 @@ function crearPromesa(probarConError: boolean) {
     })
 }
 
-
-
 export function EjemploPromesaBasica() {
 
     const [mensajes, setMensajes] = useState<string[]>([])
