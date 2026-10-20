@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { set } from "zod";
 
 type PokemonListado = {
     name: string
@@ -9,6 +10,18 @@ type RespuestaPokeApi = {
     results: PokemonListado[]
 }
 
+type PokemonDetalle = {
+    id: number
+    sprites: {
+        front_default: string
+    }
+}
+
+type Pokemon = PokemonListado & {
+    id: number
+    imagen: string
+}
+
 export function EjemploPokeApi() {
 
     const [pokemones, setPokemones] = useState<PokemonListado[]>([])
@@ -17,22 +30,78 @@ export function EjemploPokeApi() {
 
     useEffect(() => {
 
-        fetch("https://pokeapi.co/api/v2/pokemon?limit=10", {
-            method: 'GET',
-            headers: {
-                apikey: '12323dasfdas',
-                otra: "verduras"
+
+        const cargarDetalle = async (pokemon: PokemonListado): Promise<Pokemon> => {
+
+            const respuestaDetalle = await fetch(pokemon.url);
+
+            if (!respuestaDetalle.ok) {
+                throw new Error(`Error HTTP : ${respuestaDetalle.status}`)
             }
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error('Error en llamada HTTP')
+
+            const detalle: PokemonDetalle = await respuestaDetalle.json()
+
+            return ({
+                name: pokemon.name,
+                url: pokemon.url,
+                id: detalle.id,
+                imagen: detalle.sprites.front_default
+            })
+        }
+
+
+        const queryPokemones = async () => {
+            setCargando(true)
+            try {
+                //intenta este codigo
+                const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10", {
+                    method: 'GET',
+                    headers: {
+                        apikey: '12323dasfdas',
+                        otra: "verduras"
+                    }
+                })
+                if (!response.ok) {
+                    throw new Error('Error en llamada HTTP')
+                }
+                const responsePokeApi: RespuestaPokeApi = await response.json();
+
+                //setPokemones(responsePokeApi.results)
+
+                for (const pokemon of responsePokeApi.results) {
+                    cargarDetalle(pokemon)
+                }
+
+                console.log("llamada api", responsePokeApi.results);
+            } catch (error) {
+                //que hago en caso de error
+                console.log(error)
+            } finally {
+                //Esto se ejecuta a todo evento al terminar ya sea por try o por catch
+                setCargando(false)
             }
-            return response.json() as Promise<RespuestaPokeApi>
-        }).then((respuestaFinal) => {
-            setPokemones(respuestaFinal.results);
-            console.log("llamada api", respuestaFinal.results);
-        })
+        }
+
+        queryPokemones()
+
+        //fetch("https://pokeapi.co/api/v2/pokemon?limit=10", {
+        //    method: 'GET',
+        //    headers: {
+        //        apikey: '12323dasfdas',
+        //        otra: "verduras"
+        //    }
+        //}).then((response) => {
+        //    if (!response.ok) {
+        //        throw new Error('Error en llamada HTTP')
+        //    }
+        //    return response.json() as Promise<RespuestaPokeApi>
+        //}).then((respuestaFinal) => {
+        //    setPokemones(respuestaFinal.results);
+        //    console.log("llamada api", respuestaFinal.results);
+        //})
+
     }, []);
+
     return (
         <section className="lesson" id="poke-api" aria-labelledby="poke-api-title">
             <header className="lesson-heading">
