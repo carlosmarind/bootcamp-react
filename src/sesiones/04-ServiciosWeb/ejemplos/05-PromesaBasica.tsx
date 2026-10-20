@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { setErrorMap } from "zod/v3"
 
 function crearPromesa(probarConError: boolean) {
     return new Promise<string>((resolve, reject) => {
