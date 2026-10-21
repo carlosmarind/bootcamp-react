@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { set } from "zod";
+import { tr } from "zod/locales";
 
 type PokemonListado = {
     name: string
@@ -24,9 +25,9 @@ type Pokemon = PokemonListado & {
 
 export function EjemploPokeApi() {
 
-    const [pokemones, setPokemones] = useState<PokemonListado[]>([])
+    const [pokemones, setPokemones] = useState<Pokemon[]>([])
     const [cargando, setCargando] = useState(true)
-    const [error, setError] = useState()
+    const [error, setError] = useState('')
 
     useEffect(() => {
 
@@ -66,16 +67,28 @@ export function EjemploPokeApi() {
                 }
                 const responsePokeApi: RespuestaPokeApi = await response.json();
 
-                //setPokemones(responsePokeApi.results)
+                const listadoPokemones: Promise<Pokemon>[] = [];
 
-                for (const pokemon of responsePokeApi.results) {
-                    cargarDetalle(pokemon)
+                for (const pokemonGeneral of responsePokeApi.results) {
+                    // por cada uno
+                    //const pokemon = await cargarDetalle(pokemonGeneral)
+                    //listadoPokemones.push(pokemon);
+
+                    //todos
+                    listadoPokemones.push(cargarDetalle(pokemonGeneral))
                 }
+                // por cada uno
+                //setPokemones(listadoPokemones)
+
+                //todos
+                const pokemonesResueltos = await Promise.all(listadoPokemones);
+                setPokemones(pokemonesResueltos);
 
                 console.log("llamada api", responsePokeApi.results);
             } catch (error) {
                 //que hago en caso de error
                 console.log(error)
+                setError("No fue posible cargar pokemones")
             } finally {
                 //Esto se ejecuta a todo evento al terminar ya sea por try o por catch
                 setCargando(false)
@@ -83,22 +96,6 @@ export function EjemploPokeApi() {
         }
 
         queryPokemones()
-
-        //fetch("https://pokeapi.co/api/v2/pokemon?limit=10", {
-        //    method: 'GET',
-        //    headers: {
-        //        apikey: '12323dasfdas',
-        //        otra: "verduras"
-        //    }
-        //}).then((response) => {
-        //    if (!response.ok) {
-        //        throw new Error('Error en llamada HTTP')
-        //    }
-        //    return response.json() as Promise<RespuestaPokeApi>
-        //}).then((respuestaFinal) => {
-        //    setPokemones(respuestaFinal.results);
-        //    console.log("llamada api", respuestaFinal.results);
-        //})
 
     }, []);
 
@@ -116,10 +113,38 @@ export function EjemploPokeApi() {
             <pre><code>{"/* Alternativa con async/await\nconst peticionesDetalle = []\n\nfor (const pokemon of datos.results) {\n  peticionesDetalle.push(cargarDetalle(pokemon))\n}\n\n// Espera que todas las peticiones terminen.\nconst pokemonesConImagen = await Promise.all(\n  peticionesDetalle\n)\n\nsetPokemones(pokemonesConImagen)\n*/"}</code></pre>
 
             <article className="card">
-                <h3>Mis pokemones</h3>
-                {pokemones.map((pokemon) => { return <p key={pokemon.name}>{pokemon.name}</p> })}
-            </article>
+                {cargando ? <p>Cargando pokemones</p> : null}
+                {error ? <p role="alert">Problemas al cargar pokemones: {error}</p> : null}
 
+                <h3>Mis pokemones</h3>
+
+                {!cargando && !error ? (
+                    <table>
+                        <caption>Primeros pokemones</caption>
+                        <thead>
+                            <tr>
+                                <th>N°</th>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Enlace</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {pokemones.map((pokemon) => {
+                                return (
+                                    <tr key={pokemon.id}>
+                                        <td>{pokemon.id}</td>
+                                        <td> <img src={pokemon.imagen} alt={`Imagen de ${pokemon.name}`}></img></td>
+                                        <td>{pokemon.name}</td>
+                                        <td><a href={pokemon.url}>Ver JSON</a></td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+
+                    </table>
+                ) : null}
+            </article>
         </section>
     )
 }
