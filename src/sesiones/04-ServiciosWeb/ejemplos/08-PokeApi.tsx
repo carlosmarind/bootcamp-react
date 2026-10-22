@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-import { set } from "zod";
-import { tr } from "zod/locales";
 
-type PokemonListado = {
+type PokemonGeneral = {
     name: string
     url: string
 }
 
-type RespuestaPokeApi = {
-    results: PokemonListado[]
+type ResponsePokeApi = {
+    results: PokemonGeneral[]
 }
 
 type PokemonDetalle = {
@@ -18,7 +16,7 @@ type PokemonDetalle = {
     }
 }
 
-type Pokemon = PokemonListado & {
+type Pokemon = PokemonGeneral & {
     id: number
     imagen: string
 }
@@ -32,7 +30,7 @@ export function EjemploPokeApi() {
     useEffect(() => {
 
 
-        const cargarDetalle = async (pokemon: PokemonListado): Promise<Pokemon> => {
+        const cargarDetalle = async (pokemon: PokemonGeneral): Promise<Pokemon> => {
 
             const respuestaDetalle = await fetch(pokemon.url);
 
@@ -51,8 +49,9 @@ export function EjemploPokeApi() {
         }
 
 
-        const queryPokemones = async () => {
+        const cargarPokemones = async () => {
             setCargando(true)
+            setError('')
             try {
                 //intenta este codigo
                 const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10", {
@@ -65,22 +64,28 @@ export function EjemploPokeApi() {
                 if (!response.ok) {
                     throw new Error('Error en llamada HTTP')
                 }
-                const responsePokeApi: RespuestaPokeApi = await response.json();
+                const responsePokeApi: ResponsePokeApi = await response.json();
 
                 const listadoPokemones: Promise<Pokemon>[] = [];
 
                 for (const pokemonGeneral of responsePokeApi.results) {
                     // por cada uno
+                    // aqui podemos cargar el detalle de cada pokemon y esperar que su promesa se resuelva para continuar
+                    // con el siguiente pokemon
                     //const pokemon = await cargarDetalle(pokemonGeneral)
                     //listadoPokemones.push(pokemon);
 
-                    //todos
+                    // En cambio aca no esperamos a que se resuelva la promesa (await)
+                    // sino que empujamos directamente la promesa a un arreglo de promesas
+                    // y luego al completar el arreglo se la pasamos luego al Promise.all
                     listadoPokemones.push(cargarDetalle(pokemonGeneral))
                 }
                 // por cada uno
                 //setPokemones(listadoPokemones)
 
                 //todos
+                // Promise.all se encarga de resolver todas las promesas del arreglo en paralelo 
+                // y cuando esten los valores listos, los asigna
                 const pokemonesResueltos = await Promise.all(listadoPokemones);
                 setPokemones(pokemonesResueltos);
 
@@ -95,7 +100,9 @@ export function EjemploPokeApi() {
             }
         }
 
-        queryPokemones()
+        // llamamos a las funciones async dentro del useEffect sin usar await, por que el useEffect
+        // no permite usar await ni tampoco definir su funcion de callback con async, por lo que simplemente la llamamos.
+        cargarPokemones()
 
     }, []);
 
@@ -134,14 +141,13 @@ export function EjemploPokeApi() {
                                 return (
                                     <tr key={pokemon.id}>
                                         <td>{pokemon.id}</td>
-                                        <td> <img src={pokemon.imagen} alt={`Imagen de ${pokemon.name}`}></img></td>
+                                        <td> <img src={pokemon.imagen} alt={`Imagen de ${pokemon.name}`} height={50} width={50}></img></td>
                                         <td>{pokemon.name}</td>
-                                        <td><a href={pokemon.url}>Ver JSON</a></td>
+                                        <td><a href={pokemon.url} target="_blank">Ver JSON</a></td>
                                     </tr>
                                 )
                             })}
                         </tbody>
-
                     </table>
                 ) : null}
             </article>
