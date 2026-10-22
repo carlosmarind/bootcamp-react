@@ -29,10 +29,13 @@ export function EjemploPokeApi() {
 
     useEffect(() => {
 
+        const controlador = new AbortController();
 
         const cargarDetalle = async (pokemon: PokemonGeneral): Promise<Pokemon> => {
 
-            const respuestaDetalle = await fetch(pokemon.url);
+            const respuestaDetalle = await fetch(pokemon.url, {
+                signal: controlador.signal
+            });
 
             if (!respuestaDetalle.ok) {
                 throw new Error(`Error HTTP : ${respuestaDetalle.status}`)
@@ -56,6 +59,7 @@ export function EjemploPokeApi() {
                 //intenta este codigo
                 const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10", {
                     method: 'GET',
+                    signal: controlador.signal,
                     headers: {
                         apikey: '12323dasfdas',
                         otra: "verduras"
@@ -103,6 +107,11 @@ export function EjemploPokeApi() {
         // llamamos a las funciones async dentro del useEffect sin usar await, por que el useEffect
         // no permite usar await ni tampoco definir su funcion de callback con async, por lo que simplemente la llamamos.
         cargarPokemones()
+
+        return () => {
+            // funcion de limpieza o desmontaje
+            controlador.abort();
+        }
 
     }, []);
 
