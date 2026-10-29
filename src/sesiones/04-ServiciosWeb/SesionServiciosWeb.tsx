@@ -3,6 +3,8 @@ import { DependenciasVacias } from "./ejemplos/02-DependenciasVacias";
 import { EjemploDependencias } from "./ejemplos/03-Dependencias";
 import { EjemploLimpieza } from "./ejemplos/04-Limpieza";
 import { EjemploPromesaBasica } from "./ejemplos/05-PromesaBasica";
+import { EjemploAsincronia } from "./ejemplos/06-Asincronia";
+import { EjemploPromiseAll } from "./ejemplos/07-PromiseAll";
 import { EjemploPokeApi } from "./ejemplos/08-PokeApi";
 
 export function SesionServiciosWeb() {
@@ -33,7 +35,8 @@ export function SesionServiciosWeb() {
             <EjemploDependencias />
             <EjemploLimpieza />
             <EjemploPromesaBasica />
-
+            <EjemploAsincronia />
+            <EjemploPromiseAll />
             <EjemploPokeApi />
         </>
     )
