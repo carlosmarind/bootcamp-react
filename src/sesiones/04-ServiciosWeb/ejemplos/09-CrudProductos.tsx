@@ -1,5 +1,5 @@
 import { useEffect, useState, type SubmitEvent } from "react"
-import { tr } from "zod/locales"
+import z from "zod"
 
 const URL_PRODUCTOS = 'http://localhost:3001/productos'
 
@@ -31,15 +31,46 @@ const formularioInicial: Formulario = {
     descripcion: '',
     fechaIngreso: '',
     etiquetas: []
-
 }
+
+const esquemaFormulario = z.object({
+    nombre: z.string().trim().min(1, { error: 'Ingresa el nombre del producto' }),
+    descripcion: z.string(),
+    fechaIngreso: z.iso.date({ error: 'Ingresa una fecha valida' }),
+    etiquetas: z.array(z.enum(["Oferta", "Escolar", "Oficina"]), { error: 'Seleccione una etiquetas' }),
+    categoria: z.enum(["Papeleria", "Tecnologia", "Accesorios"], { error: 'Seleccione una categoria' }),
+    disponible: z.boolean(),
+    condicion: z.enum(["Nuevo", "Usado", "Reacondicionado"], { error: 'Seleccione una condicion' }),
+    precio: z.string().trim().min(1, { error: 'Ingresa el precio' })
+        .transform(Number)
+        .pipe(
+            z.number({ error: 'Ingresa una cantidad valida' })
+                .nonnegative({ error: 'La cantidad debe ser mayor o igual a cero' }
+                )
+        ),
+    cantidad: z.string().trim().min(1, { error: 'Ingresa el precio' })
+        .transform(Number)
+        .pipe(
+            z.number({ error: 'Ingresa una cantidad valida' })
+                .int({ error: 'La cantidad debe ser un numero valido' })
+                .nonnegative({ error: 'La cantidad debe ser mayor o igual a cero' }
+                )
+        ),
+})
 
 export function EjemploCrudProductos() {
 
     const [formulario, setFormulario] = useState(formularioInicial);
     const [productos, setProductos] = useState<Producto[]>([])
+    const [resultadoValidacion, setResultadoValidacion] = useState<ReturnType<typeof esquemaFormulario.safeParse> | null>();
     const [cargando, setCargando] = useState(true);
+    const [guardando, setGuardando] = useState(true)
     const [mensaje, setMensaje] = useState('')
+    const [error, setError] = useState('');
+
+    const erroresValidacion = (resultadoValidacion && !resultadoValidacion.success)
+        ? z.flattenError(resultadoValidacion.error).fieldErrors
+        : {}
 
     useEffect(() => {
 
@@ -75,8 +106,46 @@ export function EjemploCrudProductos() {
         return () => controlador.abort();
     }, [])
 
-    function guardarProducto(evento: SubmitEvent<HTMLFormElement>) {
+    async function guardarProducto(evento: SubmitEvent<HTMLFormElement>) {
         evento.preventDefault();
+        setError('')
+        setMensaje('')
+
+        const validacion = esquemaFormulario.safeParse(formulario);
+        setResultadoValidacion(validacion);
+
+        if (!validacion.success) {
+            return
+        }
+
+        setGuardando(true);
+        console.log("producto validado", validacion.data)
+        try {
+            const respuesta = await fetch(`${URL_PRODUCTOS}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(validacion.data)
+            })
+
+            if (!respuesta.ok) {
+                throw new Error(`Error HTTP: ${respuesta.status}`)
+            }
+
+            const productoGuardado: Producto = await respuesta.json()
+
+            setProductos((productosActuales) => [...productosActuales, productoGuardado])
+            setFormulario(formularioInicial)
+
+
+        } catch (errorPeticion) {
+            console.error(`Error en llamada http: ${errorPeticion}`)
+            setError('No fue posible guardar el producto en backend')
+
+        } finally {
+            setGuardando(false)
+        }
 
     }
 
@@ -135,10 +204,10 @@ export function EjemploCrudProductos() {
                     <p>
                         <label>
                             Categoria <br />
-                            <select name="categoria" value={formulario.cantidad} onChange={(evento) => setFormulario({ ...formulario, cantidad: evento.target.value })}>
+                            <select name="categoria" value={formulario.categoria} onChange={(evento) => setFormulario({ ...formulario, categoria: evento.target.value })}>
                                 <option value="">Selecciona una categoria </option>
                                 <option>Papeleria</option>
-                                <option>Tecnolgia</option>
+                                <option>Tecnologia</option>
                                 <option>Accesorios</option>
                             </select>
                         </label>
@@ -159,13 +228,13 @@ export function EjemploCrudProductos() {
                     <p>
                         <label>
                             Descripcion opcional <br />
-                            <textarea rows={3} />
+                            <textarea rows={3} value={formulario.descripcion} onChange={(evento) => setFormulario({ ...formulario, descripcion: evento.target.value })} />
                         </label>
                     </p>
                     <p>
                         <label>
                             Fecha Ingreso <br />
-                            <input type="date" />
+                            <input type="date" value={formulario.fechaIngreso} onChange={(evento) => setFormulario({ ...formulario, fechaIngreso: evento.target.value })} />
                         </label>
                     </p>
                     <p>
@@ -205,7 +274,7 @@ export function EjemploCrudProductos() {
                                             <td>{producto.cantidad}</td>
                                             <td>
                                                 <button type="button" >Editar</button>
-                                                <button type="button" onClick={() => eliminarProducto(producto.id)}>Eliminar</button>
+                                                <button type="button" disabled={guardando} onClick={() => eliminarProducto(producto.id)}>Eliminar</button>
                                             </td>
 
                                         </tr>
