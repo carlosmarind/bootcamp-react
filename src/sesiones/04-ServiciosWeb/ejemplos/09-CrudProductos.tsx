@@ -401,6 +401,7 @@ export function EjemploCrudProductos() {
                                                 <div>Ingreso: {producto.fechaIngreso} · Etiquetas: {producto.etiquetas.join(', ') || 'Sin etiquetas'}</div>
                                             </td>
                                             <td>{producto.precio}</td>
+                                            {producto.precio <= 100 && <span><strong>Producto en oferta!</strong></span>}
                                             <td>{producto.cantidad}</td>
                                             <td>
                                                 <button className="button" type="button" disabled={cargando} onClick={() => editarProducto(producto)} >Editar</button>
