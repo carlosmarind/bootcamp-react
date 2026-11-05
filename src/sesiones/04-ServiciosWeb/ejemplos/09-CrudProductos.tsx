@@ -2,6 +2,7 @@ import { useEffect, useState, type SubmitEvent } from "react"
 import z from "zod"
 
 const URL_PRODUCTOS = 'http://localhost:3001/productos'
+const URL_PRODUCTOS_CATEGORIAS = 'http://localhost:3001/categorias'
 
 type Formulario = {
     nombre: string
@@ -21,6 +22,11 @@ type Producto = Omit<Formulario, 'precio' | 'cantidad'> & {
     cantidad: number
 }
 
+type Categoria = {
+    id: string
+    name: string
+}
+
 const formularioInicial: Formulario = {
     nombre: '',
     precio: '',
@@ -38,7 +44,7 @@ const esquemaFormulario = z.object({
     descripcion: z.string(),
     fechaIngreso: z.iso.date({ error: 'Ingresa una fecha valida' }),
     etiquetas: z.array(z.enum(["Oferta", "Escolar", "Oficina"]), { error: 'Seleccione una etiquetas' }),
-    categoria: z.enum(["Papeleria", "Tecnologia", "Accesorios"], { error: 'Seleccione una categoria' }),
+    categoria: z.string().trim().min(1, { error: 'Seleccione una categoria' }),
     disponible: z.boolean(),
     condicion: z.enum(["Nuevo", "Usado", "Reacondicionado"], { error: 'Seleccione una condicion' }),
     precio: z.string().trim().min(1, { error: 'Ingresa el precio' })
@@ -60,6 +66,8 @@ export function EjemploCrudProductos() {
 
     const [formulario, setFormulario] = useState(formularioInicial);
     const [productos, setProductos] = useState<Producto[]>([])
+    const [categorias, setCategorias] = useState<Categoria[]>([])
+
     const [idEnEdicion, setIdEnEdicion] = useState<string | null>(null)
     const [resultadoValidacion, setResultadoValidacion] = useState<ReturnType<typeof esquemaFormulario.safeParse> | null>();
     const [cargando, setCargando] = useState(false);
@@ -101,6 +109,33 @@ export function EjemploCrudProductos() {
 
         }
 
+        async function cargarCategorias() {
+            try {
+
+                setCargando(true)
+                const response = await fetch(URL_PRODUCTOS_CATEGORIAS, {
+                    method: 'GET',
+                    signal: controlador.signal,
+                    headers: { 'Content-type': 'application/json' }
+                })
+
+                if (!response.ok) { throw new Error(`Error HTTP: ${response.status}`) }
+
+                const datos: Categoria[] = await response.json()
+                setCategorias(datos)
+
+            } catch (errorPeticion) {
+
+                if (controlador.signal.aborted) { return }
+
+                console.log('Error en solicitud http', errorPeticion)
+                setError('No fue posible cargar los productos. Inicia la API con npm run api y recarga la página.')
+            } finally {
+                setCargando(false);
+            }
+
+        }
+        cargarCategorias();
         cargarProductos();
         return () => controlador.abort();
     }, [])
@@ -287,9 +322,7 @@ export function EjemploCrudProductos() {
                             Categoria <br />
                             <select name="categoria" disabled={cargando} value={formulario.categoria} onChange={(evento) => setFormulario({ ...formulario, categoria: evento.target.value })}>
                                 <option value="">Selecciona una categoria </option>
-                                <option>Papeleria</option>
-                                <option>Tecnologia</option>
-                                <option>Accesorios</option>
+                                {categorias.map((categoria) => <option value={categoria.id} key={categoria.id}>{categoria.name}</option>)}
                             </select>
                         </label>
                         {erroresValidacion.categoria ? <span role="alert"><br />{erroresValidacion.categoria.join(' ')}</span> : null}
@@ -363,7 +396,7 @@ export function EjemploCrudProductos() {
                                         <tr key={producto.id}>
                                             <td>
                                                 <div>{producto.nombre}</div>
-                                                <div>{producto.categoria} · {producto.condicion} · {producto.disponible ? 'Disponible' : 'No disponible'}</div>
+                                                <div>{categorias.find((categoria) => producto.categoria === categoria.id)?.name || 'Sin categoria'} · {producto.condicion} · {producto.disponible ? 'Disponible' : 'No disponible'}</div>
                                                 <div>{producto.descripcion || 'Sin descripción'}</div>
                                                 <div>Ingreso: {producto.fechaIngreso} · Etiquetas: {producto.etiquetas.join(', ') || 'Sin etiquetas'}</div>
                                             </td>
