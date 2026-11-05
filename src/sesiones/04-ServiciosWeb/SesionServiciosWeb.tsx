@@ -7,6 +7,7 @@ import { EjemploAsincronia } from "./ejemplos/06-Asincronia";
 import { EjemploPromiseAll } from "./ejemplos/07-PromiseAll";
 import { EjemploPokeApi } from "./ejemplos/08-PokeApi";
 import { EjemploCrudProductos } from "./ejemplos/09-CrudProductos";
+import { Ejercicio } from "./ejercicio/Ejercicio";
 
 export function SesionServiciosWeb() {
     return (
@@ -42,6 +43,7 @@ export function SesionServiciosWeb() {
             <EjemploPromiseAll />
             <EjemploPokeApi />
             <EjemploCrudProductos />
+            <Ejercicio />
         </>
     )
 }
