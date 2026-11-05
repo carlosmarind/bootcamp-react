@@ -28,7 +28,9 @@ export function SesionServiciosWeb() {
                     <li><a href="#asincronia">Esperar resultados</a></li>
                     <li><a href="#promise-all">Esperar varias promesas</a></li>
                     <li><a href="#poke-api">Cargar datos con GET</a></li>
+                    <li><a href="#crud-productos">CRUD de productos con JSON Server</a></li>
                 </ol>
+                <a className="exercise-link" href="#servicios-web-reto">Ir al ejercicio ↗</a>
             </nav>
 
             <SinDependencias />
