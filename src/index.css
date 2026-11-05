@@ -265,6 +265,41 @@ code {
   margin-bottom: 0;
 }
 
+/* La lista de productos necesita el ancho completo para sus detalles. */
+#crud-productos .example-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+#crud-productos .table-scroll {
+  overflow-x: auto;
+}
+
+#crud-productos table {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  font: inherit;
+}
+
+#crud-productos caption {
+  text-align: left;
+  padding-bottom: var(--space-1);
+}
+
+#crud-productos th,
+#crud-productos td {
+  padding: var(--space-1);
+  border-bottom: 1px solid var(--color-line);
+  text-align: left;
+  vertical-align: top;
+}
+
+#crud-productos th,
+#crud-productos td:nth-child(2),
+#crud-productos td:nth-child(3) {
+  white-space: nowrap;
+}
+
 /* Formularios */
 form {
   display: grid;

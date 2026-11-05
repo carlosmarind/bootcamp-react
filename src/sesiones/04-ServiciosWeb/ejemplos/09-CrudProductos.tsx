@@ -1,5 +1,5 @@
 import { useEffect, useState, type SubmitEvent } from "react"
-import z, { set } from "zod"
+import z from "zod"
 
 const URL_PRODUCTOS = 'http://localhost:3001/productos'
 
@@ -45,16 +45,14 @@ const esquemaFormulario = z.object({
         .transform(Number)
         .pipe(
             z.number({ error: 'Ingresa una cantidad valida' })
-                .nonnegative({ error: 'La cantidad debe ser mayor o igual a cero' }
-                )
+                .nonnegative({ error: 'La cantidad debe ser mayor o igual a cero' })
         ),
     cantidad: z.string().trim().min(1, { error: 'Ingresa el precio' })
         .transform(Number)
         .pipe(
             z.number({ error: 'Ingresa una cantidad valida' })
                 .int({ error: 'La cantidad debe ser un numero valido' })
-                .nonnegative({ error: 'La cantidad debe ser mayor o igual a cero' }
-                )
+                .nonnegative({ error: 'La cantidad debe ser mayor o igual a cero' })
         ),
 })
 
@@ -64,8 +62,7 @@ export function EjemploCrudProductos() {
     const [productos, setProductos] = useState<Producto[]>([])
     const [idEnEdicion, setIdEnEdicion] = useState<string | null>(null)
     const [resultadoValidacion, setResultadoValidacion] = useState<ReturnType<typeof esquemaFormulario.safeParse> | null>();
-    const [cargando, setCargando] = useState(true);
-    const [guardando, setGuardando] = useState(false)
+    const [cargando, setCargando] = useState(false);
     const [mensaje, setMensaje] = useState('')
     const [error, setError] = useState('');
 
@@ -84,20 +81,20 @@ export function EjemploCrudProductos() {
                 const response = await fetch(URL_PRODUCTOS, {
                     method: 'GET',
                     signal: controlador.signal,
-                    headers: {
-                        'Content-type': 'application/json'
-                    }
+                    headers: { 'Content-type': 'application/json' }
                 })
 
-                if (!response.ok) {
-                    throw new Error(`Error HTTP: ${response.status}`)
-                }
+                if (!response.ok) { throw new Error(`Error HTTP: ${response.status}`) }
 
                 const datos: Producto[] = await response.json()
                 setProductos(datos)
 
             } catch (errorPeticion) {
+
+                if (controlador.signal.aborted) { return }
+
                 console.log('Error en solicitud http', errorPeticion)
+                setError('No fue posible cargar los productos. Inicia la API con npm run api y recarga la página.')
             } finally {
                 setCargando(false);
             }
@@ -109,6 +106,7 @@ export function EjemploCrudProductos() {
     }, [])
 
     async function guardarProducto(evento: SubmitEvent<HTMLFormElement>) {
+
         evento.preventDefault();
         setError('')
         setMensaje('')
@@ -116,42 +114,38 @@ export function EjemploCrudProductos() {
         const validacion = esquemaFormulario.safeParse(formulario);
         setResultadoValidacion(validacion);
 
-        if (!validacion.success) {
-            return
-        }
+        if (!validacion.success) { return }
 
-        setGuardando(true);
-        console.log("producto validado", validacion.data)
         try {
+
+            setCargando(true);
 
             const url = idEnEdicion === null ? `${URL_PRODUCTOS}` : `${URL_PRODUCTOS}/${idEnEdicion}`
             const respuesta = await fetch(`${url}`, {
                 method: idEnEdicion === null ? 'POST' : 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(validacion.data)
             })
 
-            if (!respuesta.ok) {
-                throw new Error(`Error HTTP: ${respuesta.status}`)
-            }
+            if (!respuesta.ok) { throw new Error(`Error HTTP: ${respuesta.status}`) }
 
             const productoGuardado: Producto = await respuesta.json()
 
             if (idEnEdicion === null) {
                 setProductos((productosActuales) => [...productosActuales, productoGuardado])
             } else {
-
-                const listaActualizadaProductos = productos.map((producto) => {
-
-                    if (producto.id === productoGuardado.id) {
-                        return productoGuardado
-                    } else {
-                        return producto
-                    }
-                })
-                setProductos(listaActualizadaProductos)
+                //const listaActualizadaProductos = productos.map((producto) => {
+                //
+                //    if (producto.id === productoGuardado.id) {
+                //        return productoGuardado
+                //    } else {
+                //        return producto
+                //    }
+                //})
+                //setProductos(listaActualizadaProductos)
+                setProductos((productosActuales) => productosActuales.map((producto) => (
+                    producto.id === idEnEdicion ? productoGuardado : producto
+                )))
             }
 
             limpiarFormulario();
@@ -159,28 +153,38 @@ export function EjemploCrudProductos() {
 
         } catch (errorPeticion) {
             console.error(`Error en llamada http: ${errorPeticion}`)
-            setError('No fue posible guardar el producto en backend')
+            setError('No fue posible guardar el producto, revisa que puedas acceder y este levantada la API')
         } finally {
-            setGuardando(false)
+            setCargando(false)
         }
     }
 
     async function eliminarProducto(id: string) {
+
+        if (idEnEdicion === id) { limpiarFormulario() }
+
+        setError('')
+        setMensaje('')
+
         try {
+
+            setCargando(true)
 
             const response = await fetch(`${URL_PRODUCTOS}/${id}`, {
                 method: 'DELETE',
             })
 
-            if (!response.ok) {
-                throw new Error(`Error HTTP: ${response.status}`)
-            }
-            setProductos(
-                (productosActuales) => productosActuales.filter((producto) => producto.id !== id)
-            );
+            if (!response.ok) { throw new Error(`Error HTTP: ${response.status}`) }
+
+
+
+            setProductos((productosActuales) => productosActuales.filter((producto) => producto.id !== id));
             setMensaje(`El producto con id ${id} fue eliminado`)
+
+
         } catch (errorPeticion) {
-            console.log('Error en solicitud http', errorPeticion)
+            console.error(`Error en llamada http: ${errorPeticion}`)
+            setError('No fue posible eliminar el producto, revisa que puedas acceder y este levantada la API')
         } finally {
             setCargando(false);
         }
@@ -255,32 +259,33 @@ export function EjemploCrudProductos() {
 
             <div className="example-grid">
 
-                <form onSubmit={guardarProducto}>
+                <form className="card" noValidate onSubmit={guardarProducto}>
+                    <h3>{idEnEdicion === null ? 'Agregar producto' : 'Editar producto'}</h3>
                     <p>
                         <label>
                             Nombre del producto <br />
-                            <input type="text" value={formulario.nombre} onChange={(evento) => setFormulario({ ...formulario, nombre: evento.target.value })} />
+                            <input type="text" disabled={cargando} value={formulario.nombre} onChange={(evento) => setFormulario({ ...formulario, nombre: evento.target.value })} />
                         </label>
                         {erroresValidacion.nombre ? <span role="alert"><br />{erroresValidacion.nombre.join(' ')}</span> : null}
                     </p>
                     <p>
                         <label>
                             Precio <br />
-                            <input type="number" value={formulario.precio} onChange={(evento) => setFormulario({ ...formulario, precio: evento.target.value })} />
+                            <input type="number" disabled={cargando} value={formulario.precio} onChange={(evento) => setFormulario({ ...formulario, precio: evento.target.value })} />
                         </label>
                         {erroresValidacion.precio ? <span role="alert"><br />{erroresValidacion.precio.join(' ')}</span> : null}
                     </p>
                     <p>
                         <label>
                             Cantidad <br />
-                            <input type="number" value={formulario.cantidad} onChange={(evento) => setFormulario({ ...formulario, cantidad: evento.target.value })} />
+                            <input type="number" disabled={cargando} value={formulario.cantidad} onChange={(evento) => setFormulario({ ...formulario, cantidad: evento.target.value })} />
                         </label>
                         {erroresValidacion.cantidad ? <span role="alert"><br />{erroresValidacion.cantidad.join(' ')}</span> : null}
                     </p>
                     <p>
                         <label>
                             Categoria <br />
-                            <select name="categoria" value={formulario.categoria} onChange={(evento) => setFormulario({ ...formulario, categoria: evento.target.value })}>
+                            <select name="categoria" disabled={cargando} value={formulario.categoria} onChange={(evento) => setFormulario({ ...formulario, categoria: evento.target.value })}>
                                 <option value="">Selecciona una categoria </option>
                                 <option>Papeleria</option>
                                 <option>Tecnologia</option>
@@ -291,12 +296,12 @@ export function EjemploCrudProductos() {
                     </p>
                     <p>
                         <label>
-                            <input type="checkbox" checked={formulario.disponible} onChange={(evento) => setFormulario({ ...formulario, disponible: evento.target.checked })} /> Disponible para la venta
+                            <input type="checkbox" disabled={cargando} checked={formulario.disponible} onChange={(evento) => setFormulario({ ...formulario, disponible: evento.target.checked })} /> Disponible para la venta
                         </label>
                         {erroresValidacion.disponible ? <span role="alert"><br />{erroresValidacion.disponible.join(' ')}</span> : null}
                     </p>
                     <p>
-                        <fieldset>
+                        <fieldset disabled={cargando}>
                             <legend>Condicion del producto</legend>
                             <label><input type="radio" name="condicion" value="Nuevo" /> Nuevo</label>
                             <label><input type="radio" name="condicion" value="Usado" /> Usado</label>
@@ -307,21 +312,21 @@ export function EjemploCrudProductos() {
                     <p>
                         <label>
                             Descripcion opcional <br />
-                            <textarea rows={3} value={formulario.descripcion} onChange={(evento) => setFormulario({ ...formulario, descripcion: evento.target.value })} />
+                            <textarea rows={3} disabled={cargando} value={formulario.descripcion} onChange={(evento) => setFormulario({ ...formulario, descripcion: evento.target.value })} />
                         </label>
                         {erroresValidacion.descripcion ? <span role="alert"><br />{erroresValidacion.descripcion.join(' ')}</span> : null}
                     </p>
                     <p>
                         <label>
                             Fecha Ingreso <br />
-                            <input type="date" value={formulario.fechaIngreso} onChange={(evento) => setFormulario({ ...formulario, fechaIngreso: evento.target.value })} />
+                            <input type="date" disabled={cargando} value={formulario.fechaIngreso} onChange={(evento) => setFormulario({ ...formulario, fechaIngreso: evento.target.value })} />
                         </label>
                         {erroresValidacion.fechaIngreso ? <span role="alert"><br />{erroresValidacion.fechaIngreso.join(' ')}</span> : null}
                     </p>
                     <p>
                         <label>
                             Etiquetas <br />
-                            <select multiple size={3} name="etiquetas" value={formulario.etiquetas} onChange={(evento) => setFormulario({ ...formulario, etiquetas: Array.from(evento.target.selectedOptions, (options) => options.value) })}>
+                            <select multiple size={3} disabled={cargando} value={formulario.etiquetas} onChange={(evento) => setFormulario({ ...formulario, etiquetas: Array.from(evento.target.selectedOptions, (options) => options.value) })}>
                                 <option>Oferta</option>
                                 <option>Escolar</option>
                                 <option>Oficina</option>
@@ -329,7 +334,7 @@ export function EjemploCrudProductos() {
                         </label>
                         {erroresValidacion.etiquetas ? <span role="alert"><br />{erroresValidacion.etiquetas.join(' ')}</span> : null}
                     </p>
-                    <button className="button" type="submit" disabled={guardando}>
+                    <button className="button" type="submit" disabled={cargando}>
                         {idEnEdicion === null ? 'Agregar Producto' : 'Guardar cambios'}
                     </button>
                     {idEnEdicion !== null ? (
@@ -356,14 +361,19 @@ export function EjemploCrudProductos() {
                                 <tbody>
                                     {productos.map((producto) => (
                                         <tr key={producto.id}>
-                                            <td>{producto.nombre}</td>
+                                            <td>
+                                                <div>{producto.nombre}</div>
+                                                <div>{producto.categoria} · {producto.condicion} · {producto.disponible ? 'Disponible' : 'No disponible'}</div>
+                                                <div>{producto.descripcion || 'Sin descripción'}</div>
+                                                <div>Ingreso: {producto.fechaIngreso} · Etiquetas: {producto.etiquetas.join(', ') || 'Sin etiquetas'}</div>
+                                            </td>
                                             <td>{producto.precio}</td>
                                             <td>{producto.cantidad}</td>
                                             <td>
-                                                <button type="button" onClick={() => editarProducto(producto)} >Editar</button>
-                                                <button type="button" disabled={guardando} onClick={() => eliminarProducto(producto.id)}>Eliminar</button>
+                                                <button className="button" type="button" disabled={cargando} onClick={() => editarProducto(producto)} >Editar</button>
+                                                {' '}
+                                                <button className="button" type="button" disabled={cargando} onClick={() => eliminarProducto(producto.id)} >Eliminar</button>
                                             </td>
-
                                         </tr>
                                     ))}
                                 </tbody>
@@ -375,8 +385,11 @@ export function EjemploCrudProductos() {
                 </article>
             </div >
 
-            {mensaje ? <p role="status">{mensaje}</p> : null
-            }
+
+            {error ? <p role="alert">{error}</p> : null}
+            {cargando ? <p role="status">Cargando...</p> : null}
+            {mensaje ? <p role="status">{mensaje}</p> : null}
+            <p className="prompt">Escribe una descripción con dos líneas, elige una fecha y selecciona dos etiquetas. Guarda, recarga la página y pulsa Editar: los controles recuperan los valores de la API. Repite dejando la descripción y las etiquetas vacías. Luego elimínalo y revisa la pestaña Network. ¿Qué método HTTP se usó en cada operación?</p>
         </section >
     )
 
