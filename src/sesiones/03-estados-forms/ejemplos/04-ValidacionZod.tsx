@@ -136,7 +136,7 @@ export function EjemploValidacionZod() {
                         <label>
                             <input name="condiciones" type="checkbox" onChange={cambioInput} /> Acepto las condiciones
                         </label>
-                        {errores.condiciones?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
+                        {errores.condiciones?.map((mensaje) => <p key={mensaje}><span>{mensaje}</span></p>)}
                     </p>
                     <button className="button" type="button" onClick={enviarFormulario}>Inscribirme</button>
                 </form>
