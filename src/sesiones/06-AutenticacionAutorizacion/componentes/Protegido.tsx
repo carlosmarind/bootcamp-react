@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import type { ReactNode } from 'react'
+import { useAuthStore } from '../stores/useAuthStore'
 
 export type Rol = 'admin' | 'moderator' | 'user'
 
@@ -10,8 +11,8 @@ type PropsProtegido = {
 
 export function Protegido({ rolesPermitidos = [], children }: PropsProtegido) {
 
-    const usuario = null // sacar del store
-    const cargando = null // sacar del store
+    const usuario = useAuthStore((estado) => estado.usuario) // sacar del store
+    const cargando = useAuthStore((estado) => estado.cargando) // sacar del store
 
     if (cargando) return <p role="status">Verificando permisos...</p>
     if (!usuario) {

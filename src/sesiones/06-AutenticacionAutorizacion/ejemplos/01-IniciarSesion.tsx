@@ -1,5 +1,6 @@
 import { useState, type SubmitEvent } from 'react'
 import { z } from 'zod'
+import { useAuthStore } from '../stores/useAuthStore'
 
 const esquemaFormulario = z.object({
   username: z.string().trim().min(1, 'Ingresa el nombre de usuario.'),
@@ -18,7 +19,7 @@ export function EjemploIniciarSesion() {
   // Este formulario usa casi todo el store: lo leemos una vez y desestructuramos.
   const {
     iniciarSesion, cerrarSesion, cargando, usuario, error, accessToken,
-  } = null // implementar del store
+  } = useAuthStore(); // implementar del store
 
   async function enviar(evento: SubmitEvent<HTMLFormElement>) {
     evento.preventDefault()
