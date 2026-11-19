@@ -12,7 +12,7 @@ export function Sidebar() {
                         return (isActive ? "Inicio (activo)" : "Inicio")
                     }}
                 </NavLink>
-                <NavLink className={(isActive) => {
+                <NavLink className={({ isActive }) => {
                     return (
                         isActive ? "chapter-link link-activo" : "chapter-link link-inactivo"
                     )
@@ -27,6 +27,8 @@ export function Sidebar() {
                 <NavLink className="chapter-link" to="/servicios-web">04 - useEffect y Fetch (Servicios Web)</NavLink>
 
                 <NavLink className="chapter-link" to="/estados-globales">05 - Estados Globales (Zustand)</NavLink>
+
+                <NavLink className="chapter-link" to="/autenticacion-autorizacion">06 - Autenticacion y Autorizacion</NavLink>
 
                 {/* Sin end, Cursos también queda activo al visitar /cursos/react. */}
                 <NavLink className="chapter-link" to="/cursos">Cursos</NavLink>

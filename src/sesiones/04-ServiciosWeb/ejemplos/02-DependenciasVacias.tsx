@@ -6,7 +6,7 @@ export function DependenciasVacias() {
     // un useEffect con segundo parametro como arreglo vacio ( useEffect( ()=>{}, [] ) ), significa que lo que esta en la funcion del
     // primer parametro se ejecutara solo al pintar por primera vez que el componente y nunca mas. 
     useEffect(() => {
-        console.log("El efecto (useEffect) con dependencias Vacias, se ejecuto", { contador })
+        console.log("El efecto (useEffect) con dependencias Vacias, se ejecuto!")
     }, [])
 
     return (

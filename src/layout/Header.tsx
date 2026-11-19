@@ -1,3 +1,4 @@
+import { Link } from "react-router"
 import { useCarritoStore } from "../sesiones/05-EstadosGlobales/stores/useCarritoStore"
 
 const formatoMoneda = new Intl.NumberFormat('es-CL', {
@@ -15,7 +16,7 @@ export function Header() {
 
     return (
         <header className="site-header">
-            <a href="#">Bootcamp de React</a>
+            <Link to="/">Bootcamp de React</Link>
             <span className="badge" role="status" >Carrito: {cantidadProductos} - Monto: {formatoMoneda.format(montoCarrito)}</span>
         </header>
     )

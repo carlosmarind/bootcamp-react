@@ -13,7 +13,7 @@ export const usePrefenciasStore = create<EstadoPreferfencias>()(
     cambiarMostrarAyuda : (mostrarAyuda) => set({mostrarAyuda})
     }),
     {
-        name: 'clase-estados-preferencias',
+        name: 'bootcamp-react-preferencias',
         partialize: (estado) => ({mostrarAyuda: estado.mostrarAyuda})
     }
 ))

@@ -55,7 +55,7 @@ export function EjemploDependencias() {
             <article className="card">
                 <p>
                     <label >
-                        Cuardo lo vamos a guardar en el estado del componente padre
+                        Elige un curso. El componente padre guarda tu selección.
                         <select value={curso} onChange={(evento) => setCurso(evento.target.value)}>
                             <option>React</option>
                             <option>JavaScript</option>

@@ -9,6 +9,8 @@ import { EjemploPokeApi } from "./ejemplos/08-PokeApi";
 import { EjemploCrudProductos } from "./ejemplos/09-CrudProductos";
 import { Ejercicio } from "./ejercicio/Ejercicio";
 
+import { Resolucion } from "./ejercicio/Resolucion";
+
 export function SesionServiciosWeb() {
     return (
         <>
@@ -16,7 +18,7 @@ export function SesionServiciosWeb() {
                 <p className="eyebrow">Sesión 4 · Servicios web</p>
                 <h1>React puede conectarse con el exterior.</h1>
                 <p className="lead">Compararemos las dependencias de useEffect, limpiaremos un efecto y cargaremos datos desde un servicio web.</p>
-                <div className="chapter-meta"><span>8 pasos</span><span>useEffect + Fetch API</span></div>
+                <div className="chapter-meta"><span>9 pasos</span><span>useEffect + Fetch API</span></div>
             </header>
 
             <nav aria-label="Pasos de servicios web">
@@ -44,6 +46,7 @@ export function SesionServiciosWeb() {
             <EjemploPokeApi />
             <EjemploCrudProductos />
             <Ejercicio />
+            <Resolucion />
         </>
     )
 }

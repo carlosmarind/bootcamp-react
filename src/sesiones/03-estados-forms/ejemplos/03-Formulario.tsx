@@ -31,24 +31,17 @@ export function EjemploFormulario() {
     //const [curso, setCurso] = useState("")
 
 
-    function enviarFormulario() {
-        console.log("nombre:", formulario)
+    const [mensaje, setMensaje] = useState('')
 
-        // antes del backend, deberiamos validarla
-
-        let errorFormulario = false;
-
-        if (formulario.nombre && formulario.nombre.trim().length > 2 && formulario.nombre.trim().length < 64) {
-            errorFormulario = true;
+    function enviarFormulario(evento: React.SubmitEvent<HTMLFormElement>) {
+        evento.preventDefault()
+        const nombre = formulario.nombre.trim()
+        const direccion = formulario.direccion.trim()
+        if (nombre.length < 3 || nombre.length > 63 || direccion.length < 3 || direccion.length > 63) {
+            setMensaje('Escribe entre 3 y 63 caracteres en el nombre y en la dirección.')
+            return
         }
-
-        if (formulario.direccion && formulario.direccion.trim().length > 2 && formulario.direccion.trim().length < 64) {
-            errorFormulario = true;
-        }
-
-        if (!errorFormulario) {
-            //  y quizas luego enviarBackend({ nombre, direccion, correo })
-        }
+        setMensaje(`Formulario revisado para ${nombre}.`)
     }
 
     function cambioInput(evento: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
@@ -122,7 +115,7 @@ export function EjemploFormulario() {
                 <p>Los campos de texto, select y textarea usan <code>value</code>. Un checkbox usa <code>checked</code>. Todos actualizan su estado con <code>onChange</code>.</p>
                 <pre><code>{"const [correo, setCorreo] = useState('')\nconst [aceptaCondiciones, setAceptaCondiciones] = useState(false)\n\n<input type=\"email\" value={correo} onChange={(evento) => setCorreo(evento.target.value)} />\n<input type=\"checkbox\" checked={aceptaCondiciones} onChange={(evento) => setAceptaCondiciones(evento.target.checked)} />"}</code></pre>
 
-                <form className="card">
+                <form className="card" onSubmit={enviarFormulario}>
                     <p>
                         <label>
                             Nombre<br />
@@ -138,7 +131,7 @@ export function EjemploFormulario() {
                     <p>
                         <label>
                             Correo<br />
-                            <input type="email" name="correo" onChange={cambioInput} />
+                            <input type="email" name="correo" value={formulario.correo} onChange={cambioInput} />
                         </label>
                     </p>
                     <p>
@@ -160,15 +153,16 @@ export function EjemploFormulario() {
                     <p>
                         <label>
                             Comentario opcional<br />
-                            <textarea rows={3} name="comentario" onChange={cambioInput} />
+                            <textarea rows={3} name="comentario" value={formulario.comentario} onChange={cambioInput} />
                         </label>
                     </p>
                     <p>
                         <label>
-                            <input name="condiciones" type="checkbox" onChange={cambioInput} /> Acepto las condiciones
+                            <input name="condiciones" type="checkbox" checked={formulario.condiciones} onChange={cambioInput} /> Acepto las condiciones
                         </label>
                     </p>
-                    <button className="button" type="button" onClick={enviarFormulario}>Inscribirme</button>
+                    <button className="button" type="submit">Inscribirme</button>
+                    <p role="status">{mensaje}</p>
                 </form>
 
             </section >

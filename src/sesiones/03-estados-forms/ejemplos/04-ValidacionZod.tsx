@@ -45,26 +45,9 @@ export function EjemploValidacionZod() {
 
     const errores = resultadoValidacion && !resultadoValidacion.success ? z.flattenError(resultadoValidacion.error).fieldErrors : {}
 
-    function enviarFormulario() {
-
-        console.log("el formulario es:", formulario)
-        //aqui deberia existir una validacion
-        const validacion = esquemaFormulario.safeParse(formulario)
-
-        setResultadoValidacion(validacion);
-
-        //aqui enviamos el formulario a algun lugar
-
-        console.log("validacion", validacion)
-
-        if (!validacion.success) {
-            alert('formulario invalido')
-            return;
-        }
-
-        const datosValidados = validacion.data;
-        console.log('Los datos validados estan listos para ser enviados', datosValidados);
-        // enviarBackend(datosValidados)
+    function enviarFormulario(evento: React.SubmitEvent<HTMLFormElement>) {
+        evento.preventDefault()
+        setResultadoValidacion(esquemaFormulario.safeParse(formulario))
     }
 
     function cambioInput(evento: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
@@ -78,35 +61,35 @@ export function EjemploValidacionZod() {
     }
     return (
         <>
-            <section className="lesson" id="formulario">
+            <section className="lesson" id="validacion-zod" aria-labelledby="validacion-zod-title">
                 <header className="lesson-heading">
                     <span className="lesson-number">04</span>
-                    <h2 id="formulario-title">Validacion de formulario con Zod</h2>
+                    <h2 id="validacion-zod-title">Validar el formulario con Zod</h2>
                 </header>
-                <p>Los campos de texto, select y textarea usan <code>value</code>. Un checkbox usa <code>checked</code>. Todos actualizan su estado con <code>onChange</code>.</p>
-                <pre><code>{"const [correo, setCorreo] = useState('')\nconst [aceptaCondiciones, setAceptaCondiciones] = useState(false)\n\n<input type=\"email\" value={correo} onChange={(evento) => setCorreo(evento.target.value)} />\n<input type=\"checkbox\" checked={aceptaCondiciones} onChange={(evento) => setAceptaCondiciones(evento.target.checked)} />"}</code></pre>
+                <p>Al enviar, <code>safeParse</code> comprueba el formulario. Si algún dato falla, mostramos el mensaje junto al campo que debes revisar.</p>
+                <pre><code>{"const resultado = esquemaFormulario.safeParse(formulario)\nif (!resultado.success) {\n  const errores = z.flattenError(resultado.error).fieldErrors\n  console.log(errores)\n}"}</code></pre>
 
-                <form className="card">
+                <form className="card" noValidate onSubmit={enviarFormulario}>
                     <p>
                         <label>
                             Nombre<br />
                             <input required name="nombre" value={formulario.nombre} onChange={cambioInput} />
                         </label>
-                        {errores.nombre?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
+                        {errores.nombre?.map((mensaje) => <span key={mensaje} role="alert"><br />{mensaje}</span>)}
                     </p>
                     <p>
                         <label>
                             Dirección<br />
                             <input required name="direccion" value={formulario.direccion} onChange={cambioInput} />
                         </label>
-                        {errores.direccion?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
+                        {errores.direccion?.map((mensaje) => <span key={mensaje} role="alert"><br />{mensaje}</span>)}
                     </p>
                     <p>
                         <label>
                             Correo<br />
-                            <input type="email" name="correo" onChange={cambioInput} />
+                            <input type="email" name="correo" value={formulario.correo} onChange={cambioInput} />
                         </label>
-                        {errores.correo?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
+                        {errores.correo?.map((mensaje) => <span key={mensaje} role="alert"><br />{mensaje}</span>)}
                     </p>
                     <p>
                         <label>
@@ -116,7 +99,7 @@ export function EjemploValidacionZod() {
                                 {listaCursos.map((curso) => <option key={curso} value={curso}>{curso}</option>)}
                             </select>
                         </label>
-                        {errores.curso?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
+                        {errores.curso?.map((mensaje) => <span key={mensaje} role="alert"><br />{mensaje}</span>)}
                     </p>
                     <fieldset>
                         <legend>Jornada</legend>
@@ -124,21 +107,22 @@ export function EjemploValidacionZod() {
                         <label><input type="radio" name="jornada" value="Ambas" checked={formulario.jornada === "Ambas"} onChange={cambioInput} /> Ambas</label><br />
                         <label><input type="radio" name="jornada" value="Mañana" checked={formulario.jornada === "Mañana"} onChange={cambioInput} /> Mañana</label><br />
                     </fieldset>
-                    {errores.jornada?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
+                    {errores.jornada?.map((mensaje) => <span key={mensaje} role="alert"><br />{mensaje}</span>)}
                     <p>
                         <label>
                             Comentario opcional<br />
-                            <textarea rows={3} name="comentario" onChange={cambioInput} />
+                            <textarea rows={3} name="comentario" value={formulario.comentario} onChange={cambioInput} />
                         </label>
-                        {errores.comentario?.map((mensaje) => <p><span key={mensaje}>{mensaje}</span></p>)}
+                        {errores.comentario?.map((mensaje) => <span key={mensaje} role="alert"><br />{mensaje}</span>)}
                     </p>
                     <p>
                         <label>
-                            <input name="condiciones" type="checkbox" onChange={cambioInput} /> Acepto las condiciones
+                            <input name="condiciones" type="checkbox" checked={formulario.condiciones} onChange={cambioInput} /> Acepto las condiciones
                         </label>
-                        {errores.condiciones?.map((mensaje) => <p key={mensaje}><span>{mensaje}</span></p>)}
+                        {errores.condiciones?.map((mensaje) => <span key={mensaje} role="alert"><br />{mensaje}</span>)}
                     </p>
-                    <button className="button" type="button" onClick={enviarFormulario}>Inscribirme</button>
+                    <button className="button" type="submit">Inscribirme</button>
+                    {resultadoValidacion?.success && <p role="status">Los datos del formulario son válidos.</p>}
                 </form>
 
             </section >
