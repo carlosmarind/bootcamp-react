@@ -1,4 +1,8 @@
 import { EjemploIniciarSesion } from "./ejemplos/01-IniciarSesion";
+import { EjemploCookie } from "./ejemplos/02-Cookie";
+import { EjemploHeader } from "./ejemplos/03-Header";
+import { EjemploRolUsuario } from "./ejemplos/04-RolUsuario";
+import { EjemploComponenteProtegido } from "./ejemplos/05-ComponenteProtegido";
 
 export function SesionAutenticacionAutorizacion() {
     return (
@@ -17,7 +21,10 @@ export function SesionAutenticacionAutorizacion() {
                 </ol>
             </nav>
             <EjemploIniciarSesion />
-
+            <EjemploCookie />
+            <EjemploHeader />
+            <EjemploRolUsuario />
+            <EjemploComponenteProtegido />
         </>
     )
 }
