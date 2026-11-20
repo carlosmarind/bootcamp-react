@@ -16,10 +16,12 @@ export function App() {
   return (
     <>
       <Routes>
+        {/* Estas páginas comparten el layout. La ruta index se muestra al entrar a / y las demás se eligen según la URL. */}
         <Route path="/" element={<MainLayout />} >
           <Route index element={<Inicio />} />
           <Route path="/componentes" element={<SesionComponentes />} />
           <Route path="/router" element={<SesionRouter />} />
+          {/* Esta segunda dirección muestra la misma clase para que podamos probar cómo cambia el enlace activo. */}
           <Route path="/router/navlink-cursos" element={<SesionRouter />} />
           <Route path="/cursos" element={<Cursos />} />
           <Route path="/estados-forms" element={<SesionEstadosForms />} />
@@ -27,6 +29,7 @@ export function App() {
           <Route path="/estados-globales" element={<SesionEstadosGlobales />} />
           <Route path="/autenticacion-autorizacion" element={<SesionAutenticacionAutorizacion />} />
           <Route path="/cursos/:cursoId" element={<DetalleCurso />} />
+          {/* Si ninguna ruta coincide, mostramos la página de error. /cursos/no-existe sí coincide con la ruta del detalle. */}
           <Route path="*" element={<PaginaNoEncontrada />} />
         </Route>
       </Routes>

@@ -6,7 +6,7 @@ export function Sidebar() {
             <nav aria-label="Navegación principal">
                 <p className="eyebrow">El recorrido</p>
                 {/* NavLink agrega aria-current="page" al enlace que está activo. */}
-                {/* NavLink con funcion de callback en el children */}
+                {/* Acá pasamos una función como children. NavLink le entrega isActive para que podamos cambiar el texto según la ruta. */}
                 <NavLink className="chapter-link" to="/" >
                     {({ isActive }) => {
                         return (isActive ? "Inicio (activo)" : "Inicio")

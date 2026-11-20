@@ -40,6 +40,7 @@ export const useCarritoStore = create<EstadoCarrito>()(
             // Esta forma no sirve por que repite los productos y los marca siempre con cantidad 1
             //[...estadoActual.items, { producto: producto, cantidad: 1 }]
         })),
+        // Si quedan dos unidades, map deja una. Si quedaba una, filter saca del carrito la línea que llegó a cero.
         quitar: (id) => set((estadoActual) => ({
             items: estadoActual.items.map(
                 (item) => item.producto.id === id ? { ...item, cantidad: item.cantidad - 1 } : item

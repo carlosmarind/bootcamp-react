@@ -3,7 +3,9 @@ import { cursos } from "./Cursos"
 
 export function DetalleCurso() {
 
+    // En /cursos/react, cursoId vale "react". El nombre cursoId viene del :cursoId que escribimos en App.
     const { cursoId } = useParams();
+    // Si agregas ?color=azul, get("color") devuelve "azul". Ese dato va después del signo ? y el curso sigue siendo el mismo.
     const [qParams] = useSearchParams();
 
     const color = qParams.get("color");

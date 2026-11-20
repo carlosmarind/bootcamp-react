@@ -12,6 +12,7 @@ function ControlesContador() {
 }
 
 function ResumenContador() {
+    // Cuando el otro componente llama a incrementar, cambia este mismo store. El resumen recibe el nuevo contador aunque nadie se lo pase por props.
     const contador = useContadorStore((estado) => estado.contador)
     return (
         <article><h3>Compoente que lee el valor compartido: {contador}</h3></article>

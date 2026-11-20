@@ -23,6 +23,7 @@ export function EjemploFormulario() {
         comentario: ""
     }
 
+    // Agrupamos los campos en un objeto. Cada control muestra su parte con value o checked y avisa los cambios con onChange.
     const [formulario, setFormulario] = useState<Formulario>(initValue)
 
     //const [nombre, setNombre] = useState("")
@@ -74,8 +75,10 @@ export function EjemploFormulario() {
         //console.log("value", evento.target.value)
         //console.log("value", evento.target.checked)
         //
+        // Si escribimos en el correo, name vale "correo". Copiamos los demás campos y reemplazamos solo ese usando [evento.target.name].
         setFormulario({
             ...formulario,
+            // En el checkbox leemos checked para guardar true o false. En los demás controles nos interesa el texto de value.
             [evento.target.name]: (evento.target instanceof HTMLInputElement && evento.target.type === "checkbox") ?
                 evento.target.checked
                 :

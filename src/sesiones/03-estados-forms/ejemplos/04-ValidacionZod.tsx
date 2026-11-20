@@ -12,6 +12,7 @@ type Formulario = {
 }
 let listaCursos = ['React', 'JavaScript'];
 
+// Acá describimos qué aceptamos al enviar. Por ejemplo, trim() quita los espacios de los extremos antes de comprobar el largo del nombre.
 const esquemaFormulario = z.object({
     nombre: z.string().trim()
         .min(1, { error: 'Ingresa tu nombre' })
@@ -24,6 +25,7 @@ const esquemaFormulario = z.object({
     jornada: z.enum(['Mañana', 'Tarde', 'Ambas'], { error: 'Selecciona una jornada' }),
     comentario: z.string().trim()
         .max(200, { error: 'El comentario puede tener hasta 200 caracteres' }),
+    // Si usamos z.boolean(), false también pasa. Con literal(true) pedimos que la persona haya marcado la casilla.
     condiciones: z.literal(true, { error: 'Debes aceptar las condiciones' }),
 })
 
@@ -43,10 +45,12 @@ export function EjemploValidacionZod() {
         comentario: ""
     })
 
+    // fieldErrors agrupa los mensajes por nombre de campo. Así mostramos el error de correo al lado del correo.
     const errores = resultadoValidacion && !resultadoValidacion.success ? z.flattenError(resultadoValidacion.error).fieldErrors : {}
 
     function enviarFormulario(evento: React.SubmitEvent<HTMLFormElement>) {
         evento.preventDefault()
+        // Si success vale true, data contiene los datos validados. Si vale false, leemos error para mostrar qué campo hay que corregir.
         setResultadoValidacion(esquemaFormulario.safeParse(formulario))
     }
 

@@ -2,13 +2,13 @@ import { useContadorStore } from "../stores/useContadorStore"
 
 export function EjemploSelectores() {
 
-    // selector
+    // Con este selector nos suscribimos al número que mostramos en pantalla.
     const contador = useContadorStore((estado) => estado.contador)
 
-    // un selector calculado
+    // Podemos devolver un cálculo desde el selector. Si contador vale 4, acá recibimos true.
     const esPar = useContadorStore((estado) => estado.contador % 2 === 0)
 
-    // un selector derivado
+    // Como ya tenemos contador, calculamos el doble acá mismo. Guardarlo aparte nos obligaría a mantener los dos valores al día.
     const doble = contador * 2
 
     const incrementar = useContadorStore((estado) => estado.incrementar)

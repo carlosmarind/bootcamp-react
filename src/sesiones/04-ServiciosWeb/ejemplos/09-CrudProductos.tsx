@@ -42,11 +42,13 @@ const formularioInicial: Formulario = {
 const esquemaFormulario = z.object({
     nombre: z.string().trim().min(1, { error: 'Ingresa el nombre del producto' }),
     descripcion: z.string(),
+    // El input de fecha entrega un texto como "2026-11-19". Zod comprueba la fecha y podemos enviar ese mismo texto a la API.
     fechaIngreso: z.iso.date({ error: 'Ingresa una fecha válida' }),
     etiquetas: z.array(z.enum(["Oferta", "Escolar", "Oficina"]), { error: 'Selecciona etiquetas válidas' }),
     categoria: z.string().trim().min(1, { error: 'Selecciona una categoría' }),
     disponible: z.boolean(),
     condicion: z.enum(["Nuevo", "Usado", "Reacondicionado"], { error: 'Selecciona una condición' }),
+    // Aunque el input sea de tipo number, su value llega como texto. Primero rechazamos el vacío, porque Number("") daría 0.
     precio: z.string().trim().min(1, { error: 'Ingresa el precio' })
         .transform(Number)
         .pipe(
@@ -68,6 +70,7 @@ export function EjemploCrudProductos() {
     const [productos, setProductos] = useState<Producto[]>([])
     const [categorias, setCategorias] = useState<Categoria[]>([])
 
+    // Usamos el mismo formulario para dos acciones: con null creamos un producto y con un id guardamos los cambios de ese producto.
     const [idEnEdicion, setIdEnEdicion] = useState<string | null>(null)
     const [resultadoValidacion, setResultadoValidacion] = useState<ReturnType<typeof esquemaFormulario.safeParse> | null>(null);
     const [cargando, setCargando] = useState(false);
@@ -85,6 +88,7 @@ export function EjemploCrudProductos() {
         async function cargarDatos() {
             setCargando(true)
             try {
+                // Podemos pedir ambos recursos a la vez: para iniciar la consulta de categorías no necesitamos la respuesta de productos.
                 const [respuestaProductos, respuestaCategorias] = await Promise.all([
                     fetch(URL_PRODUCTOS, { signal: controlador.signal }),
                     fetch(URL_PRODUCTOS_CATEGORIAS, { signal: controlador.signal })
@@ -127,6 +131,7 @@ export function EjemploCrudProductos() {
             const respuesta = await fetch(`${url}`, {
                 method: idEnEdicion === null ? 'POST' : 'PUT',
                 headers: { 'Content-Type': 'application/json' },
+                // Enviamos data porque ya tiene precio y cantidad como números. En el objeto formulario todavía son textos.
                 body: JSON.stringify(validacion.data)
             })
 

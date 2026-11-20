@@ -11,17 +11,17 @@ const esquemaCatalogo = z.array(z.object({
     disponible: z.boolean()
 }))
 
+// z.infer nos da el tipo del arreglo validado. Con [number] sacamos el tipo de un solo producto para usarlo en el catálogo.
 type ProductoCatalogo = z.infer<typeof esquemaCatalogo>[number]
 
 export function EjemploCarritoProductos() {
 
-    // estados de componentes
+    // Solo esta vista necesita saber si el catálogo está cargando o si falló la petición.
     const [cargando, setCargando] = useState(false);
     const [productos, setProductos] = useState<ProductoCatalogo[]>([])
     const [error, setError] = useState('')
 
-    //estados globales
-    //items del carrito
+    // El carrito también se muestra en la cabecera. Ambos componentes leen los productos elegidos del mismo store.
     const items = useCarritoStore((estado) => estado.items)
     const agregar = useCarritoStore((estado) => estado.agregar)
     const quitar = useCarritoStore((estado) => estado.quitar)

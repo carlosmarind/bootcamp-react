@@ -1,8 +1,10 @@
 import { useState } from 'react'
 
 export function EjemploContador() {
+    // useState(0) nos da el contador de este render y la función para pedir otro valor. React lo recuerda entre clics.
     const [contador, setContador] = useState(0)
 
+    // Prueba desde cero: cada función recibe lo que dejó la anterior, así que en un clic pasamos por 1, 2, 3 y 4.
     function sumarConFunciones() {
         setContador(actual => actual + 1)
         setContador(actual => actual + 1)
@@ -10,6 +12,7 @@ export function EjemploContador() {
         setContador(actual => actual + 1)
     }
 
+    // Acá las cuatro llamadas leen el mismo contador del clic. Si era 0, las cuatro piden guardar 1.
     function sumarConValor() {
         setContador(contador + 1)
         setContador(contador + 1)

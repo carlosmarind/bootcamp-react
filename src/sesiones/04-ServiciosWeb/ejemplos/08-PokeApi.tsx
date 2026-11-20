@@ -62,6 +62,7 @@ export function EjemploPokeApi() {
                 if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`)
 
                 const datos: ResponsePokeApi = await respuesta.json()
+                // El listado trae el nombre y una URL por Pokémon. Iniciamos los detalles en el bucle y esperamos las promesas juntas antes de llenar la tabla.
                 const peticionesDetalle: Promise<Pokemon>[] = []
                 for (const pokemon of datos.results) {
                     peticionesDetalle.push(cargarDetalle(pokemon))
@@ -69,6 +70,7 @@ export function EjemploPokeApi() {
                 const resultados = await Promise.all(peticionesDetalle)
                 if (!controlador.signal.aborted) setPokemones(resultados)
             } catch {
+                // Salir de la página también cancela el fetch. Solo mostramos el aviso si falló una petición que todavía nos interesa.
                 if (!controlador.signal.aborted) setError('No fue posible cargar los Pokémon.')
             } finally {
                 if (!controlador.signal.aborted) setCargando(false)
@@ -78,7 +80,7 @@ export function EjemploPokeApi() {
         void cargarPokemones()
 
         return () => {
-            // funcion de limpieza o desmontaje
+            // El listado y los detalles usan la misma señal. Si salimos de la página, abort() cancela las peticiones que sigan pendientes.
             controlador.abort();
         }
 
